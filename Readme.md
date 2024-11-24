@@ -22,6 +22,7 @@ How backend will work (backend itself with PyTerrier), how data are handled, str
 
 ### Search Engine Implementation
 <!-- TODO: how the search engine is actually implemented. Related with the design providing more details related with the implementation; also how the data are provided to the frontend.
+<!-- TODO: have a look at scrapy.org
 RELATED WITH THE BACKEND -->
 
 ### Search Interface Implementation
