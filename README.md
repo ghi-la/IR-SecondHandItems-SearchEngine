@@ -4,6 +4,23 @@
 
 **Authors**: Ghilardini Matteo & Toscano Sasha
 
+## How to run
+
+To setup Scrapy:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install scrapy
+```
+
+To run a spider `spiderName` run:
+
+```bash
+cd crawler/secondhand_scraper/secondhand_scraper/spiders
+scrapy crawl spiderName -o ../../../../data/output.json 
+```
+
 ## Technologies
 
 ### Backend
