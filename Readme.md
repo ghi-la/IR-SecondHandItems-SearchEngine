@@ -2,7 +2,7 @@
 
 ## An Information Retrieval Project
 
-Authors: Ghilardini Matteo & Toscano Sasha
+**Authors**: Ghilardini Matteo & Toscano Sasha
 
 ## Technologies
 
@@ -17,7 +17,7 @@ As the main core of our frontend, we will use **Next.js** together with **React*
 ## Steps
 
 ### Design
-<!-- TODO: Add a picture of the design and the working of the application. 
+<!-- TODO: Add a picture of the design and the working of the application.
 How backend will work (backend itself with PyTerrier), how data are handled, structured, and stored. Show also how frontend and backend will communicate together providing a "documentation-like" fo the RestAPI -->
 
 ### Search Engine Implementation
