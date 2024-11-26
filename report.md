@@ -27,11 +27,11 @@ scrapy crawl spiderName -o ../../../../data/output.json
 
 ### Backend
 
-Our backend will rely on a **Python** base using **fastAPI**; indexing will be done by **PyTerrier**.
+Our backend will rely on a **Python** base using **fastAPI**; indexing will be done by **PyTerrier** and as scraper we use **Scrapy**.
 
 ### Frontend
 
-As the main core of our frontend, we will use **Next.js** together with **React** and **TypeScript**. To enhance the interface, we will also use the React components provided by **MaterialUI**.
+As the main core of our frontend, we will use **React** and **TypeScript**. To enhance the interface, we will also use the React components provided by **MaterialUI**.
 
 ## Steps
 
@@ -74,4 +74,4 @@ How backend will work (backend itself with PyTerrier), how data are handled, str
 
 ### Evaluation
 
- Still todo: How we perform the userEvaluation, what this influence our system,...
+ Still todo: How we perform the userEvaluation, what influence our system,...
