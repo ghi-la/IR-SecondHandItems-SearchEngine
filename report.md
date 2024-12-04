@@ -4,45 +4,77 @@
 
 **Authors**: Ghilardini Matteo & Toscano Sasha
 
-**Files**: All of our files are publicly findable in our repository `https://github.com/ghi-la/IR-SecondHandItems-SearchEngine`
+**Files**: All project files are publicly available in our repository: [https://github.com/ghi-la/IR-SecondHandItems-SearchEngine](https://github.com/ghi-la/IR-SecondHandItems-SearchEngine)
 
-## How to run
+---
 
-To setup Scrapy:
+## How to Run
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install scrapy
-```
+### Setting Up Scrapy
 
-To run a spider `spiderName` run:
+1. Create and activate a Python virtual environment:
 
 ```bash
-cd crawler/secondhand_scraper/secondhand_scraper/spiders
-scrapy crawl spiderName -o ../../../../data/output.json 
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install scrapy
 ```
+
+2. Run a spider:
+
+```bash
+   cd crawler/secondhand_scraper/secondhand_scraper/spiders 
+   scrapy crawl secondhand -o ../../../../data/output.json
+```
+
+---
 
 ## Technologies
 
 ### Backend
 
-Our backend will rely on a **Python** base using **fastAPI**; indexing will be done by **PyTerrier** and as scraper we use **Scrapy**.
+- **Python**: Core programming language.
+- **FastAPI**: For building RESTful APIs.
+- **PyTerrier**: Responsible for indexing and retrieval processes.
+- **Scrapy**: Used for web scraping.
 
 ### Frontend
 
-As the main core of our frontend, we will use **React** and **TypeScript**. To enhance the interface, we will also use the React components provided by **MaterialUI**.
+- **React** and **TypeScript**: Framework and language for the user interface.
+- **MaterialUI**: Provides styled React components to improve design and usability.
+
+---
 
 ## Steps
 
 ### Design
 
- Still todo: Add a picture of the design and the working of the application.
-How backend will work (backend itself with PyTerrier), how data are handled, structured, and stored. Show also how frontend and backend will communicate together providing a "documentation-like" fo the RestAPI
+**To Do**:
+
+- Include a diagram or mockup to illustrate the application's design and functionality.
+- Provide details about the backend design:
+  - How indexing is handled using **PyTerrier**.
+  - How data is stored, structured, and retrieved.
+- Document the communication between backend and frontend:
+  - Provide REST API endpoint descriptions for better clarity.
+
+---
 
 ### Crawler (Scrapy)
 
- We decided to use Scrapy and have already successfully implemented it and ran it. The output of our spider `secondhand_spider.py` can be seen in `output.json`. We implemented it in such a way that our spider goes on `secondhand.org.uk`, it extracts all the links that compose the site (removing duplicates) that correspond to different categories. Then in each of the pages we extract (for now) name of the article, price of the article and the link to the image of the article. The format of our output is the following:
+We use **Scrapy** to implement a web scraper that collects data from [secondhand.org.uk](https://www.secondhand.org.uk). The scraper has been successfully implemented and tested.
+
+#### Current Functionality
+
+1. Extracts all unique category links from the website.
+2. Visits each category page and retrieves:
+   - The name of the article.
+   - Its price.
+   - A link to its image.
+
+#### Output Format
+
+The data is saved in JSON format (`output.json`) with the following structure:
 
  ``` json
 [{
@@ -66,12 +98,29 @@ How backend will work (backend itself with PyTerrier), how data are handled, str
 
 ### Search Engine Implementation
 
- Still todo: how the search engine is actually implemented. Related with the design providing more details related with the implementation; also how the data are provided to the frontend.Plus how the frontend and the backend will communicate
+**To Do**:
+
+- Provide a detailed explanation of how the search engine is built:
+  - The integration of **PyTerrier** for indexing.
+  - Steps for processing queries and ranking results.
+- Explain how data is passed to the frontend for display.
+- Document REST API endpoints for searching and retrieving results.
+
+---
 
 ### Search Interface Implementation
 
- Still todo: how the frontend is implemented
+**To Do**:
+
+- Document the implementation of the **React** and **TypeScript** frontend.
+- Highlight key design choices and features implemented using **MaterialUI**.
+
+---
 
 ### Evaluation
 
- Still todo: How we perform the userEvaluation, what influence our system,...
+**To Do**:
+
+- Define the methods used for evaluating the system.
+- Highlight the factors influencing system performance.
+- Specify the metrics and criteria for evaluating search engine quality.
