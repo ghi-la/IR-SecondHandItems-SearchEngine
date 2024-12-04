@@ -18,8 +18,9 @@ To run a spider `spiderName` run:
 
 ```bash
 cd crawler/secondhand_scraper/secondhand_scraper/spiders
-scrapy crawl spiderName -o ../../../../data/output.json 
+scrapy crawl spiderName
 ```
+The output of the scraper will be automatically put in `data` folder in a jsonL file.
 
 ## Technologies
 
