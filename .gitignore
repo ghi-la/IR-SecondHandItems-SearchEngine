@@ -9,3 +9,5 @@ __pycache__/
 *.pdf
 *.log
 .DS_Store
+crawler/secondhand_scraper/secondhand_scraper/.DS_Store
+crawler/secondhand_scraper/secondhand_scraper/spiders/.DS_Store

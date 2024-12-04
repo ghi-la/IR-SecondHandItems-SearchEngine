@@ -33,8 +33,6 @@ class SecondHandSpider(scrapy.Spider):
 
         category = response.css("div.usercontent > h1::text").extract_first()
 
-        items = []
-
         # Extract all items from the page
         listings = response.css("table#listings > tr")
 
@@ -42,15 +40,17 @@ class SecondHandSpider(scrapy.Spider):
             # Extract title, price and image link from the page
             title = item.css("td#title > a  > p::text").extract_first()
             price = item.css("td#price > p::text").extract_first()
-            image = item.css("td#image img::attr(src)").extract_first()
+            shippingCost = item.css("td#price >div.shipping-cost > p::text").extract_first()
+            itemURI = item.css("td#price > div.view-item > a::attr(href)").extract_first()
+            bestOffer = item.css("td#price > div.best-offer > p::text").extract_first() or ""
+            imageURI = item.css("td#image img::attr(src)").extract_first()
 
-            items.append({
-                "title": title,
-                "price": price,
-                "image": image,
-            })
-
-        yield {
+            yield {
             "category": category,
-            "items": items,
-        }
+            "title": title,
+            "price": price,
+            "bestOffer": bestOffer,
+            "shippingCost": shippingCost,
+            "itemURI": itemURI,
+            "imageURI": imageURI,
+            }
