@@ -163,3 +163,21 @@ class Indexer:
             The loaded PyTerrier index.
         """
         return pt.IndexFactory.of(index_ref)
+    
+    @staticmethod
+    def get_all_docs(index_ref: str):
+        """
+        Retrieve all documents from the given index reference.
+
+        Parameters
+        ----------
+        index_ref : str
+            Path to the index reference.
+
+        Returns
+        -------
+        List[IndexDocument]
+            List of all documents in the index.
+        """
+        index = Indexer.retrieve_index(index_ref)
+        return list(index.get_data())

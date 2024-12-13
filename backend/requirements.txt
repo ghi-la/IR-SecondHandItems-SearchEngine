@@ -2,4 +2,5 @@ fastapi
 uvicorn
 python-terrier
 pandas
+orjson
 python-multipart
