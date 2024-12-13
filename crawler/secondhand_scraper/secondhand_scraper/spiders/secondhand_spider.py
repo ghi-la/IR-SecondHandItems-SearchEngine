@@ -30,8 +30,8 @@ class SecondHandSpider(scrapy.Spider):
             yield scrapy.Request(link, callback=self.parse_category)
 
     def parse_category(self, response):
-
-        category = response.css("div.usercontent > h1::text").extract_first()
+        category = response.css("li.ubermenu-current-menu-ancestor > a > span::text").extract_first()
+        subcategory = response.css("div.usercontent > h1::text").extract_first()
 
         # Extract all items from the page
         listings = response.css("table#listings > tr")
@@ -47,6 +47,7 @@ class SecondHandSpider(scrapy.Spider):
 
             yield {
             "category": category,
+            "subcategory": subcategory,
             "title": title,
             "price": price,
             "bestOffer": bestOffer,
