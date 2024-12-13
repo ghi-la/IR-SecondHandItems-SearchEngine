@@ -68,7 +68,7 @@ class Indexer:
     def create_index(
         self,
         documents: List[Document],
-        overwrite=False,
+        overwrite=True,
         stemmer="porter",
         stopwords="terrier",
         tokeniser="UTFTokeniser",
@@ -97,6 +97,10 @@ class Indexer:
         str
             Reference to the created index.
         """
+        # Check if the index already exists
+        index_exists = os.path.exists(os.path.join(self.index_destination_path, "data.properties"))
+        if index_exists and not overwrite:
+            raise FileExistsError("Index already exists. Use overwrite=True to overwrite it.")
         if not os.path.exists(self.index_destination_path):
             os.makedirs(self.index_destination_path)
 
@@ -132,7 +136,14 @@ class Indexer:
         ]
 
         # Create the index
-        print(pt)
+        indexer = pt.IterDictIndexer(
+            self.index_destination_path,
+            overwrite=True,
+            threads=threads,
+            stemmer=stemmer,
+            stopwords=stopwords,
+            tokeniser=tokeniser,
+        )
         index_ref = indexer.index(indexed_docs, meta=["docno"])
         return index_ref
 
