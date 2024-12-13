@@ -23,10 +23,23 @@ export type Document = {
   title: string;
 };
 
+export type DocumentsInfo = {
+  categories: string[];
+  priceMax: number;
+};
+
 export type Filter = {
-  category: string;
+  categories: string[];
+  filterByPrice: boolean;
   priceMax: number;
   priceMin: number;
   includeShippingCost: boolean;
-  isAuction: boolean | undefined;
+  isAuction: isAuction;
 };
+
+export enum isAuction {
+  AUCTIONS = 'Only Auctions',
+  FIXED_PRICE = 'Only Fixed Price',
+  BOTH = 'Both auctions and fixed price',
+}
+    

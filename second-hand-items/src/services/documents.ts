@@ -1,4 +1,4 @@
-import { InputDocument } from '@/store/models';
+import { Document, DocumentsInfo, InputDocument } from '@/store/models';
 import { parseDocument } from '@/utils/documentsUtils';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -50,11 +50,19 @@ export const searchItems = async (query: string) => {
   }
 };
 
-export const fetchAllCategories = async () => {
+export const getDocumentsInfo = async () => {
   try {
     const response = await axios.get(`${PYTERRIER_API}/all`);
-    const categories = response.data.map((doc: InputDocument) => doc.category);
-    return [...new Set(categories)];
+    const documents: Document[] = response.data.map((doc: InputDocument) =>
+      parseDocument(doc)
+    );
+    const categories = documents.map((doc: Document) => doc.category);
+    const maxPrice = Math.max(...documents.map((doc: Document) => doc.price));
+    const documentsInfo: DocumentsInfo = {
+      categories: Array.from(new Set(categories)),
+      priceMax: maxPrice,
+    };
+    return documentsInfo;
   } catch (error) {
     console.error('Error fetching categories:', error);
   }

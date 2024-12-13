@@ -1,17 +1,20 @@
-import { Filter } from '../models';
+import { Filter, isAuction } from '../models';
 
 const INITIAL_STATE: Filter = {
-  category: '',
-  priceMax: Number.POSITIVE_INFINITY,
+  categories: [],
+  filterByPrice: false,
+  priceMax: 0,
   priceMin: 0,
   includeShippingCost: true,
-  isAuction: undefined,
+  isAuction: isAuction.BOTH,
 };
 
 const filterReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
-    case 'SET_CATEGORY':
-      return { ...state, category: action.payload };
+    case 'SET_FILTER_CATEGORIES':
+      return { ...state, categories: action.payload };
+    case 'SET_FILTER_BY_PRICE':
+      return { ...state, filterByPrice: action.payload };
     case 'SET_PRICE_MAX':
       return { ...state, priceMax: action.payload };
     case 'SET_PRICE_MIN':

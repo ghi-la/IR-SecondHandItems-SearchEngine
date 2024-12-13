@@ -1,3 +1,5 @@
+import { isAuction } from './models';
+
 export const isLoading = () => ({
   type: 'IS_LOADING',
 });
@@ -16,8 +18,12 @@ export const closeNotification = () => ({
 });
 
 // ####### Filter Actions #######
-export const setCategory = (payload: string) => ({
-  type: 'SET_CATEGORY',
+export const setFilterCategories = (payload: string[]) => ({
+  type: 'SET_FILTER_CATEGORIES',
+  payload,
+});
+export const setFilterByPrice = (payload: boolean) => ({
+  type: 'SET_FILTER_BY_PRICE',
   payload,
 });
 export const setPriceMax = (payload: number) => ({
@@ -31,7 +37,7 @@ export const setPriceMin = (payload: number) => ({
 export const toggleIncludeShippingCost = () => ({
   type: 'TOGGLE_INCLUDE_SHIPPING_COST',
 });
-export const setAuction = (payload: boolean) => ({
+export const setAuction = (payload: isAuction) => ({
   type: 'SET_AUCTION',
   payload,
 });

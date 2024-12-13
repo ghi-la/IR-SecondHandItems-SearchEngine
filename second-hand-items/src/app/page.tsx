@@ -1,25 +1,26 @@
 'use client';
 
 import {
-  fetchAllCategories,
   fetchAllItems,
+  getDocumentsInfo,
   getHealth,
 } from '@/services/documents';
-import { openNotification } from '@/store/actions';
+import { openNotification, setCategories, setPriceMax } from '@/store/actions';
+import { DocumentsInfo } from '@/store/models';
 import { Button } from '@mui/material';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Filters from './components/Filters';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const categories = useSelector((state: any) => state.documents.categories);
 
   useEffect(() => {
     dispatch({ type: 'IS_LOADING' });
-    fetchAllCategories()
-      .then((categories) => {
-        dispatch({ type: 'SET_CATEGORIES', payload: categories });
+    getDocumentsInfo()
+      .then((info: DocumentsInfo | undefined) => {
+        dispatch(setCategories(info?.categories || []));
+        dispatch(setPriceMax(info?.priceMax || 50));
       })
       .finally(() => {
         dispatch({ type: 'IS_LOADED' });
