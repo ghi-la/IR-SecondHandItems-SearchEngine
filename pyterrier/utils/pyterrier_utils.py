@@ -9,6 +9,7 @@ import pyterrier as pt
 class Document(TypedDict):
     docno: str
     category: str
+    subcategory: str
     title: str
     price: str
     bestOffer: str
@@ -56,6 +57,7 @@ class Indexer:
                     Document(
                         docno=f"d{idx + 1}",  # Generate a unique document number
                         category=data.get("category", ""),
+                        subcategory=data.get("subcategory", ""),
                         title=data.get("title", ""),
                         price=data.get("price", ""),
                         bestOffer=data.get("bestOffer", ""),
@@ -120,6 +122,7 @@ class Indexer:
             """
             text = f"""
             {doc['category']}
+            {doc['subcategory']}
             {doc['title']}
             {doc['price']}
             {doc['bestOffer']}
