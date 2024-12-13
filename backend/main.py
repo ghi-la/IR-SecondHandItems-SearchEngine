@@ -1,11 +1,29 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
-from utils.pyterrier_utils import load_data
+from utils.pyterrier_utils import create_index, load_jsonl
 
 DATA_PATH = "../data/output.jsonl"
+INDEX_PATH = "../data/index"
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    dataframe = load_jsonl(DATA_PATH)
+    create_index(dataframe, INDEX_PATH)
+    yield
+    print("Shutting down...")
 
 
-@app.get("/")
+app = FastAPI(lifespan=lifespan)
+
+
+@app.get("/data")
 def read_root():
-    return {load_data(DATA_PATH)}
+
+    dataframe = load_jsonl(DATA_PATH)
+
+    if dataframe.empty:
+        return {"message": "No data to display."}
+
+    return {"data": dataframe.to_dict(orient="records")}
