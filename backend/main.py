@@ -17,7 +17,7 @@ async def lifespan(app: FastAPI):
 
     # Create the index
     print("Creating index...")
-    index_ref = indexer.create_index(documents)
+    index_ref = indexer.create_index(documents, overwrite=True)
 
     # Confirm index creation
     print(f"Index created at {index_ref}")

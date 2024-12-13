@@ -68,7 +68,7 @@ class Indexer:
     def create_index(
         self,
         documents: List[Document],
-        overwrite=True,
+        overwrite=False,
         stemmer="porter",
         stopwords="terrier",
         tokeniser="UTFTokeniser",
