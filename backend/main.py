@@ -68,17 +68,19 @@ def read_root():
 def health_check():
     return {"Status": "Healthy"}
 
-@app.get("/api/docs")
-async def get_docs():
+@app.get("/api/all")
+async def get_all_docs():
     return ORJSONResponse(
         df.to_dict(orient="records"),
     )
 
-# Example URL: /api/v1/search?query=beer&top=10
+# Example URL: http://localhost:8000/api/search?query=iphone&top=10
+# The query looks for documents whoose values contain the given string (case-insensitive),
+# no filter by field is applied.
 @app.get("/api/search")
 async def search(query: str, top: int = MAX_DOCUMENTS):
     global df, model
-    # If top is higher than 20, set it to 20
+    
     if top > MAX_DOCUMENTS:
         raise ValueError("Top cannot be higher than " + str(MAX_DOCUMENTS))
     
@@ -103,5 +105,5 @@ async def search(query: str, top: int = MAX_DOCUMENTS):
     
     # Return the documents as JSON
     return ORJSONResponse(
-            ordered_docs.to_dict(orient="records"),
+        ordered_docs.to_dict(orient="records"),
     )
