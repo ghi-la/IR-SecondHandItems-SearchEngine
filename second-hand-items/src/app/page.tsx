@@ -1,5 +1,6 @@
 'use client';
 
+import { getHealth } from '@/services/documents';
 import { openNotification } from '@/store/actions';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -18,6 +19,27 @@ export default function Home() {
     }, 3000);
   }
 
+  function handleGetHealth() {
+    dispatch({ type: 'IS_LOADING' });
+    getHealth()
+      .then((response) => {
+        dispatch(
+          openNotification({ severity: 'success', message: response.status })
+        );
+      })
+      .catch((error) => {
+        dispatch(
+          openNotification({
+            severity: 'error',
+            message: 'PyTerrier is not healthy',
+          })
+        );
+      })
+      .finally(() => {
+        dispatch({ type: 'IS_LOADED' });
+      });
+  }
+
   return (
     <div>
       <h1>Home</h1>
@@ -26,6 +48,9 @@ export default function Home() {
       </Button>
       <Button variant="contained" color="primary" onClick={handleTestLoading}>
         Test Loading
+      </Button>
+      <Button variant="contained" color="primary" onClick={handleGetHealth}>
+        Test Terrier Health
       </Button>
     </div>
   );

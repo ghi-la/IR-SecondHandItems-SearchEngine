@@ -5,6 +5,7 @@ from fastapi.responses import ORJSONResponse
 import pyterrier as pt
 import pandas as pd
 from utils.pyterrier_utils import Indexer
+from fastapi.middleware.cors import CORSMiddleware
 
 if not pt.started():
     pt.init()
@@ -60,13 +61,22 @@ origins = [
     "http://localhost:3000"
 ]
 
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 @app.get("/")
 def read_root():
-    return {"Message": "Welcome to IR Project backend!"}
+    return {"message": "Welcome to IR Project backend!"}
 
 @app.get("/health")
 def health_check():
-    return {"Status": "Healthy"}
+    return {"status": "Healthy"}
 
 @app.get("/api/all")
 async def get_all_docs():
