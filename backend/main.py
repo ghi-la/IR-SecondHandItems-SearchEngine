@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 import pyterrier as pt
+import pandas as pd
 from utils.pyterrier_utils import Indexer
 
 if not pt.started():
@@ -14,17 +15,27 @@ MAX_DOCUMENTS = 1000
 
 index = None
 index_ref = None
-documents = None
+df = None
 model = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global index_ref, documents, model, index
+    global index_ref, df, model, index
     indexer = Indexer(INDEX_PATH)
 
     # Load the dataset
     print("Loading dataset...")
     documents = indexer.load_dataset(DATA_PATH)
+
+    # Load documents inside dataframe
+    df = pd.DataFrame(documents)
+
+    # Use column "docno" as index
+    df.set_index("docno")
+
+    # Count nan / null values
+    print(df.dtypes)
+    print(df.isnull().sum())
 
     # Create the index
     print("Creating index...")
@@ -32,13 +43,16 @@ async def lifespan(app: FastAPI):
 
     # Confirm index creation
     print(f"Index created at {index_ref}")
+    # Print statistics
+    print("Index statistics:")
+    print(Indexer.retrieve_index(index_ref).getCollectionStatistics().toString())
+    print("Index built successfully!")
 
     index = pt.IndexFactory.of(index_ref)
     model = pt.BatchRetrieve(index, wmodel="BM25") % MAX_DOCUMENTS
 
     yield
     print("Shutting down...")
-
 
 app = FastAPI(lifespan=lifespan, response_class=ORJSONResponse)
 
@@ -54,10 +68,40 @@ def read_root():
 def health_check():
     return {"Status": "Healthy"}
 
-@app.get("/dataset")
-def dataset():
-    # Load the indexed dataset without any processing
-    global index_ref, model
-    result = model.search(query="")
-    result_json = result.to_dict(orient="records")  # Convert DataFrame to list of dictionaries
-    return ORJSONResponse(result_json)
+@app.get("/api/docs")
+async def get_docs():
+    return ORJSONResponse(
+        df.to_dict(orient="records"),
+    )
+
+# Example URL: /api/v1/search?query=beer&top=10
+@app.get("/api/search")
+async def search(query: str, top: int = MAX_DOCUMENTS):
+    global df, model
+    # If top is higher than 20, set it to 20
+    if top > MAX_DOCUMENTS:
+        raise ValueError("Top cannot be higher than " + str(MAX_DOCUMENTS))
+    
+    # Search documents by query
+    results = model.search(query)
+
+    # Retrieve the document ids from the results
+    ids = results["docno"].tolist()
+
+    # Select only the top results
+    top = min(top, len(ids))
+    ids = ids[:top]
+
+    # Create a DataFrame for ordering
+    order_df = pd.DataFrame({"docno": ids, "order": range(len(ids))})
+
+    # Merge with the original DataFrame
+    merged_docs = order_df.merge(df, on="docno").sort_values(by="order")
+
+    # Drop the temporary ordering column and reset index
+    ordered_docs = merged_docs.drop(columns=["order"]).reset_index(drop=True)
+    
+    # Return the documents as JSON
+    return ORJSONResponse(
+            ordered_docs.to_dict(orient="records"),
+    )
