@@ -47,3 +47,7 @@ export const setCategories = (payload: string[]) => ({
   type: 'SET_CATEGORIES',
   payload,
 });
+export const setResultDocuments = (payload: any) => ({
+  type: 'SET_RESULT_DOCUMENTS',
+  payload,
+});

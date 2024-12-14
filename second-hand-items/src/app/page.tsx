@@ -7,10 +7,11 @@ import {
 } from '@/services/documents';
 import { openNotification, setCategories, setPriceMax } from '@/store/actions';
 import { DocumentsInfo } from '@/store/models';
-import { Button } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Filters from './components/Filters';
+import ResultsPresentation from './components/ResultsPresentation';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -98,7 +99,10 @@ export default function Home() {
       <Button variant="contained" color="primary" onClick={handleGetAll}>
         Get All Documents
       </Button>
+      <Divider />
       <Filters />
+      <Divider />
+      <ResultsPresentation />
     </div>
   );
 }

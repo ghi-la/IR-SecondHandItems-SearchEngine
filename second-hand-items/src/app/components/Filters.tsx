@@ -7,6 +7,7 @@ import {
   setFilterCategories,
   setPriceMax,
   setPriceMin,
+  setResultDocuments,
   toggleIncludeShippingCost,
 } from '@/store/actions';
 import { Filter, isAuction } from '@/store/models';
@@ -41,7 +42,7 @@ const Filters = () => {
     if (query) {
       searchItems(query)
         .then((items) => {
-          console.log(filterDocuments(items, filter));
+          dispatch(setResultDocuments(filterDocuments(items, filter)));
         })
         .finally(() => {
           dispatch(isLoaded());
@@ -49,7 +50,7 @@ const Filters = () => {
     } else {
       fetchAllItems()
         .then((items) => {
-          console.log(filterDocuments(items, filter));
+          dispatch(setResultDocuments(filterDocuments(items, filter)));
         })
         .finally(() => {
           dispatch(isLoaded());
