@@ -1,4 +1,4 @@
-import { searchItems } from '@/services/documents';
+import { fetchAllItems, searchItems } from '@/services/documents';
 import {
   isLoaded,
   isLoading,
@@ -39,10 +39,17 @@ const Filters = () => {
       dispatch(setPriceMin(0));
     }
     if (query) {
-      // search by query
       searchItems(query)
-        .then((res) => {
-          console.log(filterDocuments(res, filter));
+        .then((items) => {
+          console.log(filterDocuments(items, filter));
+        })
+        .finally(() => {
+          dispatch(isLoaded());
+        });
+    } else {
+      fetchAllItems()
+        .then((items) => {
+          console.log(filterDocuments(items, filter));
         })
         .finally(() => {
           dispatch(isLoaded());
@@ -71,7 +78,7 @@ const Filters = () => {
             </li>
           );
         }}
-        // value={filter.categories}
+        value={filter.categories}
         onChange={(e, value) =>
           dispatch(setFilterCategories(value as string[]))
         }
