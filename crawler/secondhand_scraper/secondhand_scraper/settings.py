@@ -12,7 +12,6 @@ BOT_NAME = "secondhand_scraper"
 SPIDER_MODULES = ["secondhand_scraper.spiders"]
 NEWSPIDER_MODULE = "secondhand_scraper.spiders"
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "secondhand_scraper (+http://www.yourdomain.com)"
 
@@ -63,7 +62,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "secondhand_scraper.pipelines.SecondhandScraperPipeline": 300,
+    "secondhand_scraper.pipelines.SecondhandScraperPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,21 +90,9 @@ ITEM_PIPELINES = {
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-
-
-
-
 DOWNLOADER_MIDDLEWARES = {
     # Disable specific middlewares temporarily
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
 }
 DEPTH_LIMIT = 1
-
-FEEDS = {
-    "../../../../data/output.jsonl": {
-        "format": "jsonlines",
-        "encoding": "utf8",
-        "overwrite": True,  # Overwrites the file if it exists
-    },
-}
