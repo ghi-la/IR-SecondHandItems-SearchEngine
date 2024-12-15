@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 
 const DocumentPresentation = ({ document }: { document: Document }) => {
   return (
-    <Card sx={{ maxWidth: 300 }}>
+    <Card sx={{ width: 300 }}>
       <CardMedia
-        sx={{ minHeight: 140, maxHeight: 140 }}
+        sx={{ height: 240 }}
         component="img"
         image={document.imageURI || undefined}
         alt={document.title}

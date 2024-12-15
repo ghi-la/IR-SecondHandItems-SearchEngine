@@ -68,6 +68,7 @@ const Results = () => {
         <span>Query: {query}</span>
         <span>Results count: {documents.resultDocuments.length}</span>
       </div>
+
       <ResultsPresentation />
     </>
   );
