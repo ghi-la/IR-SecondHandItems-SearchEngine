@@ -17,7 +17,14 @@ export const parseDocument = (doc: InputDocument): Document => {
   };
 };
 
-export const filterDocuments = (documents: Document[], filter: Filter) => {
+export const filterDocuments = (
+  documents: Document[],
+  useFiltes: boolean,
+  filter: Filter
+) => {
+  if (!useFiltes) {
+    return documents;
+  }
   return documents.filter((doc) => {
     if (
       filter.categories.length > 0 &&

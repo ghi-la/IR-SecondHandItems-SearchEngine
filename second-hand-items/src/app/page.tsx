@@ -1,5 +1,6 @@
 'use client';
 
+import Search from '@/app/components/Search';
 import {
   fetchAllItems,
   getDocumentsInfo,
@@ -10,8 +11,6 @@ import { DocumentsInfo } from '@/store/models';
 import { Button, Divider } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Filters from './components/Filters';
-import ResultsPresentation from './components/ResultsPresentation';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -100,9 +99,7 @@ export default function Home() {
         Get All Documents
       </Button>
       <Divider />
-      <Filters />
-      <Divider />
-      <ResultsPresentation />
+      <Search />
     </div>
   );
 }

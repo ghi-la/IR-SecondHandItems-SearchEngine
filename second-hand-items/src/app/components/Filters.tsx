@@ -1,26 +1,19 @@
-import { fetchAllItems, searchItems } from '@/services/documents';
 import {
-  isLoaded,
-  isLoading,
   setAuction,
   setFilterByPrice,
   setFilterCategories,
   setPriceMax,
   setPriceMin,
-  setResultDocuments,
   toggleIncludeShippingCost,
 } from '@/store/actions';
 import { Filter, isAuction } from '@/store/models';
-import { filterDocuments } from '@/utils/documentsUtils';
 import {
   Autocomplete,
-  Button,
   Checkbox,
   FormControlLabel,
   Switch,
   TextField,
 } from '@mui/material';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Filters = () => {
@@ -31,41 +24,8 @@ const Filters = () => {
 
   const ABSOLUTE_MAX_PRICE = filter.priceMax;
 
-  const [query, setQuery] = useState('');
-
-  function handleSearch() {
-    dispatch(isLoading());
-    if (!filter.filterByPrice) {
-      dispatch(setPriceMax(ABSOLUTE_MAX_PRICE));
-      dispatch(setPriceMin(0));
-    }
-    if (query) {
-      searchItems(query)
-        .then((items) => {
-          dispatch(setResultDocuments(filterDocuments(items, filter)));
-        })
-        .finally(() => {
-          dispatch(isLoaded());
-        });
-    } else {
-      fetchAllItems()
-        .then((items) => {
-          dispatch(setResultDocuments(filterDocuments(items, filter)));
-        })
-        .finally(() => {
-          dispatch(isLoaded());
-        });
-    }
-  }
-
   return (
     <>
-      <TextField
-        label="Search"
-        variant="outlined"
-        onChange={(e) => setQuery(e.target.value)}
-      />
-
       <Autocomplete
         disableCloseOnSelect
         multiple
@@ -135,8 +95,8 @@ const Filters = () => {
           />
         )}
       />
-      <Button onClick={handleSearch}>Search</Button>
     </>
   );
 };
+
 export default Filters;

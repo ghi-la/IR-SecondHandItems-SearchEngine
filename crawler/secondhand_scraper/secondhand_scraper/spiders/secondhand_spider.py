@@ -8,9 +8,9 @@ class SecondHandSpider(scrapy.Spider):
     allowed_domains = ["secondhand.org.uk"]
     start_urls = ["https://www.secondhand.org.uk/"]
 
-    # delete the output file if it already exists
-    if os.path.exists("../../../../data/output.json"):
-        os.remove("../../../../data/output.json")
+    # # delete the output file if it already exists
+    # if os.path.exists("../../../../data/output.json"):
+    #     os.remove("../../../../data/output.json")
 
     def parse(self, response):
         # Extract the links from the page

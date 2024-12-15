@@ -3,7 +3,7 @@ import { Filter, isAuction } from '../models';
 const INITIAL_STATE: Filter = {
   categories: [],
   filterByPrice: false,
-  priceMax: 0,
+  priceMax: Number.MAX_SAFE_INTEGER,
   priceMin: 0,
   includeShippingCost: true,
   isAuction: isAuction.BOTH,

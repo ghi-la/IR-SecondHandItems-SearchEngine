@@ -43,6 +43,10 @@ export const setAuction = (payload: isAuction) => ({
 });
 
 // ####### Documents Actions #######
+export const setUseFilters = (payload: boolean) => ({
+  type: 'SET_USE_FILTERS',
+  payload,
+});
 export const setCategories = (payload: string[]) => ({
   type: 'SET_CATEGORIES',
   payload,
