@@ -9,8 +9,8 @@
 To setup Scrapy:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python -m venv py_venv
+source py_venv/bin/activate
 pip install scrapy
 ```
 
@@ -20,6 +20,7 @@ To run a spider `spiderName` run:
 cd crawler/secondhand_scraper/secondhand_scraper/spiders
 scrapy crawl spiderName
 ```
+
 The output of the scraper will be automatically put in `data` folder in a jsonL file.
 
 ## Technologies
