@@ -192,7 +192,7 @@ class Indexer:
         return list(index.get_data())
 
     @staticmethod
-    def cluster_documents(documents: List[Document], n_clusters: int = 10) -> dict:
+    def cluster_documents(documents: List[Document], n_clusters: int = 10) -> List[dict]:
         """
         Cluster documents based on categories and subcategories.
 
@@ -205,8 +205,8 @@ class Indexer:
 
         Returns
         -------
-        dict
-            A dictionary where keys are cluster labels and values are lists of documents.
+        List[dict]
+            A list of clusters where each cluster is a dictionary with a label and documents.
         """
         # Prepare text data for clustering
         text_data = [
@@ -227,7 +227,7 @@ class Indexer:
             clusters[label].append(documents[idx])
 
         # Generate labels for each cluster
-        cluster_labels = {}
+        cluster_list = []
         for i in range(n_clusters):
             cluster_docs = clusters[i]
             categories = [doc['category'] for doc in cluster_docs if doc['category']]
@@ -236,6 +236,6 @@ class Indexer:
                 label = max(set(categories), key=categories.count)
             else:
                 label = max(set(subcategories), key=subcategories.count) if subcategories else "Unknown"
-            cluster_labels[str(i)] = {"label": label, "documents": cluster_docs}
+            cluster_list.append({"label": label, "documents": cluster_docs})
 
-        return cluster_labels
+        return cluster_list
