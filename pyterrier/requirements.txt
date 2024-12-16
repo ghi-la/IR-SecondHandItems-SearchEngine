@@ -4,3 +4,4 @@ python-terrier
 pandas
 orjson
 python-multipart
+scikit-learn
