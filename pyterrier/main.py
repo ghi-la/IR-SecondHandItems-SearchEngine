@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 if not pt.started():
     pt.init()
 
-DATA_PATH = "../data/output.jsonl"
+DATA_PATHS = ["../data/shpock_output.jsonl"]
 INDEX_PATH = "../data/index"
 MAX_DOCUMENTS = 1000
 
@@ -26,7 +26,9 @@ async def lifespan(app: FastAPI):
 
     # Load the dataset
     print("Loading dataset...")
-    documents = indexer.load_dataset(DATA_PATH)
+    documents = []
+    for path in DATA_PATHS:
+        documents+=indexer.load_dataset(path)
 
     # Load documents inside dataframe
     df = pd.DataFrame(documents)
