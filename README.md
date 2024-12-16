@@ -27,11 +27,29 @@ The output of the scraper will be automatically put in `data` folder in a jsonL 
 
 ### Backend
 
-Our backend will rely on a **Python** base using **fastAPI**; indexing will be done by **PyTerrier**.
+Our backend relies on a **Python** base using **fastAPI**; indexing is done by **PyTerrier**. To run it use the following commands:
+
+```bash
+    # from the root
+    cd pyterrier
+    pip install -r requirements.txt
+    uvicorn main:app --reload
+```
+
+This will run the backend by default on port `8000`
 
 ### Frontend
 
-As the main core of our frontend, we will use **Next.js** together with **React** and **TypeScript**. To enhance the interface, we will also use the React components provided by **MaterialUI**.
+As the main core of our frontend, we use **Next.js** together with **React** and **TypeScript**. To enhance the interface, we also use the React components provided by **MaterialUI**. To run it use the following commands:
+
+```bash
+    # from the root
+    cd second-hand-items
+    npm install
+    npm run dev
+```
+
+This will run the frontend by default on port `3000`
 
 ## Steps
 
