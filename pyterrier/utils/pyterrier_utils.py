@@ -1,6 +1,9 @@
 import json
 import os
 from typing import List, TypedDict
+from collections import defaultdict
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
 
 import pyterrier as pt
 
@@ -35,6 +38,7 @@ class Indexer:
         Load the dataset from a JSONL file and return a list of documents.
 
         Parameters
+        ----------
         ----------
         dataset_path : str
             Path to the dataset file.
@@ -184,3 +188,52 @@ class Indexer:
         """
         index = Indexer.retrieve_index(index_ref)
         return list(index.get_data())
+
+    @staticmethod
+    def cluster_documents(documents: List[Document], n_clusters: int = 10) -> dict:
+        """
+        Cluster documents based on categories and subcategories.
+
+        Parameters
+        ----------
+        documents : List[Document]
+            A list of documents to cluster.
+        n_clusters : int
+            Number of clusters to form.
+
+        Returns
+        -------
+        dict
+            A dictionary where keys are cluster labels and values are lists of documents.
+        """
+        # Prepare text data for clustering
+        text_data = [
+            f"{doc['category']} {doc['subcategory']}" for doc in documents
+        ]
+
+        # Vectorize the text data
+        vectorizer = TfidfVectorizer(stop_words='english')
+        X = vectorizer.fit_transform(text_data)
+
+        # Perform KMeans clustering
+        kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+        kmeans.fit(X)
+
+        # Assign documents to clusters
+        clusters = defaultdict(list)
+        for idx, label in enumerate(kmeans.labels_):
+            clusters[label].append(documents[idx])
+
+        # Generate labels for each cluster
+        cluster_labels = {}
+        for i in range(n_clusters):
+            cluster_docs = clusters[i]
+            categories = [doc['category'] for doc in cluster_docs if doc['category']]
+            subcategories = [doc['subcategory'] for doc in cluster_docs if doc['subcategory']]
+            if categories:
+                label = max(set(categories), key=categories.count)
+            else:
+                label = max(set(subcategories), key=subcategories.count) if subcategories else "Unknown"
+            cluster_labels[str(i)] = {"cluster": label, "documents": cluster_docs}
+
+        return cluster_labels

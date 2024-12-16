@@ -82,9 +82,14 @@ def health_check():
 
 @app.get("/api/all")
 async def get_all_docs():
-    return ORJSONResponse(
-        df.to_dict(orient="records"),
-    )
+    global df
+    indexer = Indexer(INDEX_PATH)
+    documents = df.to_dict(orient="records")
+    clusters = indexer.cluster_documents(documents)
+    # return ORJSONResponse(
+    #     {"documents": documents, "clusters": clusters},
+    # )
+    return ORJSONResponse(clusters)
 
 # Example URL: http://localhost:8000/api/search?query=iphone&top=10
 # The query looks for documents whoose values contain the given string (case-insensitive),
@@ -115,7 +120,23 @@ async def search(query: str, top: int = MAX_DOCUMENTS):
     # Drop the temporary ordering column and reset index
     ordered_docs = merged_docs.drop(columns=["order"]).reset_index(drop=True)
     
-    # Return the documents as JSON
-    return ORJSONResponse(
-        ordered_docs.to_dict(orient="records"),
-    )
+    # Cluster the documents
+    indexer = Indexer(INDEX_PATH)
+    documents = ordered_docs.to_dict(orient="records")
+    clusters = indexer.cluster_documents(documents)
+    
+    # Return the documents and clusters as JSON
+    # return ORJSONResponse(
+    #     {"documents": documents, "clusters": clusters},
+    # )
+    return ORJSONResponse(clusters)
+
+@app.get("/api/cluster")
+async def cluster_documents(n_clusters: int = 10):
+    global df
+    indexer = Indexer(INDEX_PATH)
+    documents = df.to_dict(orient="records")
+    clusters = indexer.cluster_documents(documents, n_clusters=n_clusters)
+    # Convert cluster keys to strings
+    clusters = {str(key): value for key, value in clusters.items()}
+    return ORJSONResponse(clusters)

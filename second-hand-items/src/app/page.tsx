@@ -66,7 +66,7 @@ export default function Home() {
         dispatch(
           openNotification({
             severity: 'success',
-            message: response.length + ' documents console logged',
+            message: ' documents console logged',
           })
         );
       })

@@ -1,9 +1,8 @@
 'use client';
 
 import { fetchAllItems, searchItems } from '@/services/documents';
-import { isLoaded, isLoading, setResultDocuments } from '@/store/actions';
+import { isLoaded, isLoading } from '@/store/actions';
 import { Filter } from '@/store/models';
-import { filterDocuments } from '@/utils/documentsUtils';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,13 +25,13 @@ const Results = () => {
       searchItems(query)
         .then((response) => {
           console.log(response);
-          const filteredDocuments = filterDocuments(
-            response,
-            documents.useFilters,
-            filters
-          );
-          console.log(filteredDocuments);
-          dispatch(setResultDocuments(filteredDocuments));
+          //   const filteredDocuments = filterDocuments(
+          //     response,
+          //     documents.useFilters,
+          //     filters
+          //   );
+          //   console.log(filteredDocuments);
+          //   dispatch(setResultDocuments(filteredDocuments));
         })
         .catch((error) => {
           console.error('Error searching items:', error);
@@ -44,13 +43,13 @@ const Results = () => {
       fetchAllItems()
         .then((response) => {
           console.log(response);
-          const filteredDocuments = filterDocuments(
-            response,
-            documents.useFilters,
-            filters
-          );
-          console.log(filteredDocuments);
-          dispatch(setResultDocuments(filteredDocuments));
+          //   const filteredDocuments = filterDocuments(
+          //     response,
+          //     documents.useFilters,
+          //     filters
+          //   );
+          //   console.log(filteredDocuments);
+          //   dispatch(setResultDocuments(filteredDocuments));
         })
         .catch((error) => {
           console.error('Error searching items:', error);

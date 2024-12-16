@@ -23,6 +23,8 @@ export const getHealth = async () => {
 export const fetchAllItems = async () => {
   try {
     const response = await axios.get(`${PYTERRIER_API}/all`);
+    console.log(response.data);
+    return; 
     const documents: Document[] = response.data.map((doc: InputDocument) =>
       parseDocument(doc)
     );

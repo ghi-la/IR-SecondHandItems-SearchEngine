@@ -23,6 +23,11 @@ export type Document = {
   title: string;
 };
 
+export type Cluster = {
+  cluster: string;
+  documents: Document[];
+};
+
 export type DocumentsInfo = {
   categories: string[];
   priceMax: number;
