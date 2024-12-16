@@ -9,6 +9,7 @@
 To setup Scrapy:
 
 ```bash
+# from the root
 python -m venv py_venv
 source py_venv/bin/activate
 pip install scrapy
@@ -17,8 +18,9 @@ pip install scrapy
 To run a spider `spiderName` run:
 
 ```bash
-cd crawler/secondhand_scraper/secondhand_scraper/spiders
-scrapy crawl spiderName
+cd crawler/secondhand_scraper/spiders
+scrapy crawl spiderName 
+# replace spiderName with the spider you want to run: secondhand, shpock, hand2hand
 ```
 
 The output of the scraper will be automatically put in `data` folder in a jsonL file.
@@ -30,10 +32,10 @@ The output of the scraper will be automatically put in `data` folder in a jsonL 
 Our backend relies on a **Python** base using **fastAPI**; indexing is done by **PyTerrier**. To run it use the following commands:
 
 ```bash
-    # from the root
-    cd pyterrier
-    pip install -r requirements.txt
-    uvicorn main:app --reload
+# from the root
+cd pyterrier
+pip install -r requirements.txt
+uvicorn main:app --reload
 ```
 
 This will run the backend by default on port `8000`
@@ -43,10 +45,10 @@ This will run the backend by default on port `8000`
 As the main core of our frontend, we use **Next.js** together with **React** and **TypeScript**. To enhance the interface, we also use the React components provided by **MaterialUI**. To run it use the following commands:
 
 ```bash
-    # from the root
-    cd second-hand-items
-    npm install
-    npm run dev
+# from the root
+cd second-hand-items
+npm install
+npm run dev
 ```
 
 This will run the frontend by default on port `3000`

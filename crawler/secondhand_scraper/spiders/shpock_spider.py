@@ -8,7 +8,7 @@ class ShpockSpider(scrapy.Spider):
 
     custom_settings = {
         "FEEDS": {
-            "../../../../data/shpock_output.jsonl": {
+            "../../../data/shpock_output.jsonl": {
                 "format": "jsonlines",
                 "encoding": "utf8",
                 "overwrite": True,

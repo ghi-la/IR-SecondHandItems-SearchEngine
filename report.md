@@ -23,8 +23,8 @@
 2. Run a spider:
 
 ```bash
-   cd crawler/secondhand_scraper/secondhand_scraper/spiders 
-   scrapy crawl secondhand -o ../../../../data/output.json
+   cd crawler/secondhand_scraper/spiders 
+   scrapy crawl spiderName
 ```
 
 ---

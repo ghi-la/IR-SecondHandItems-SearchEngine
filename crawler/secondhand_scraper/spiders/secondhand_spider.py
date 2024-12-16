@@ -10,7 +10,7 @@ class SecondHandSpider(scrapy.Spider):
 
     custom_settings = {
         "FEEDS": {
-            "../../../../data/secondhand_output.jsonl": {
+            "../../../data/secondhand_output.jsonl": {
                 "format": "jsonlines",
                 "encoding": "utf8",
                 "overwrite": True,
@@ -19,8 +19,8 @@ class SecondHandSpider(scrapy.Spider):
     }
 
     # # delete the output file if it already exists
-    # if os.path.exists("../../../../data/output.json"):
-    #     os.remove("../../../../data/output.json")
+    # if os.path.exists("../../../data/output.json"):
+    #     os.remove("../../../data/output.json")
 
     def parse(self, response):
         # Extract the links from the page

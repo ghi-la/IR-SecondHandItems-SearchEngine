@@ -8,7 +8,7 @@ class Hand2HandSpider(scrapy.Spider):
 
     custom_settings = {
         "FEEDS": {
-            "../../../../data/hand2hand_output.jsonl": {
+            "../../../data/hand2hand_output.jsonl": {
                 "format": "jsonlines",
                 "encoding": "utf8",
                 "overwrite": True,
