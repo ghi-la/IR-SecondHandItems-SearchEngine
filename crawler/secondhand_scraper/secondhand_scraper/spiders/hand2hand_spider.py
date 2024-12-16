@@ -30,6 +30,8 @@ class Hand2HandSpider(scrapy.Spider):
         title = response.css(
             "h1.product-detail-name.mb-4[itemprop='name']::text"
         ).extract_first()
+        if title:
+            title = title.strip()  # Remove leading/trailing whitespace
         itemURI = response.url  # The current page URL
 
         # Extract the subcategory from breadcrumb
