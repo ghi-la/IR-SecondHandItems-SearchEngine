@@ -10,7 +10,7 @@ class SecondHandSpider(scrapy.Spider):
 
     custom_settings = {
         "FEEDS": {
-            "../../../../data/secondhand_output.json": {
+            "../../../../data/secondhand_output.jsonl": {
                 "format": "jsonlines",
                 "encoding": "utf8",
                 "overwrite": True,
