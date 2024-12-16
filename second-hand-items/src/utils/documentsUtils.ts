@@ -1,4 +1,10 @@
-import { Document, Filter, InputDocument, isAuction } from '@/store/models';
+import {
+  Document,
+  Filter,
+  InputDocument,
+  isAuction,
+  ParsedCluster,
+} from '@/store/models';
 
 export const parseDocument = (doc: InputDocument): Document => {
   const currency = doc.price.match(/[^\d.-]+/)?.[0] || '';
@@ -18,42 +24,85 @@ export const parseDocument = (doc: InputDocument): Document => {
 };
 
 export const filterDocuments = (
-  documents: Document[],
+  clusters: ParsedCluster[],
   useFiltes: boolean,
   filter: Filter
 ) => {
   if (!useFiltes) {
-    return documents;
+    return clusters;
   }
-  return documents.filter((doc) => {
+  return clusters.filter((cluster) => {
     if (
-      filter.categories.length > 0 &&
-      !filter.categories.includes(doc.category)
+      filter.clusters.length > 0 &&
+      !filter.clusters.includes(cluster.label)
     ) {
       return false;
     }
-    if (filter.filterByPrice) {
-      if (filter.includeShippingCost) {
-        if (
-          filter.priceMax > 0 &&
-          doc.price + doc.shippingCost > filter.priceMax
-        ) {
-          return false;
-        }
-      } else {
-        if (filter.priceMax > 0 && doc.price > filter.priceMax) {
-          return false;
+    return cluster.documents.some((doc) => {
+      if (filter.filterByPrice) {
+        if (filter.includeShippingCost) {
+          if (
+            filter.priceMax > 0 &&
+            doc.price + doc.shippingCost > filter.priceMax
+          ) {
+            return false;
+          }
+        } else {
+          if (filter.priceMax > 0 && doc.price > filter.priceMax) {
+            return false;
+          }
         }
       }
-    }
-    if (filter.priceMin > 0 && doc.price < filter.priceMin) {
-      return false;
-    }
-    if (doc.isAuction && filter.isAuction === isAuction.FIXED_PRICE) {
-      return false;
-    } else if (!doc.isAuction && filter.isAuction === isAuction.AUCTIONS) {
-      return false;
-    }
-    return true;
+      if (filter.priceMin > 0 && doc.price < filter.priceMin) {
+        return false;
+      }
+      if (doc.isAuction && filter.isAuction === isAuction.FIXED_PRICE) {
+        return false;
+      } else if (!doc.isAuction && filter.isAuction === isAuction.AUCTIONS) {
+        return false;
+      }
+      return true;
+    });
   });
 };
+
+// export const filterDocuments = (
+//   documents: Document[],
+//   useFiltes: boolean,
+//   filter: Filter
+// ) => {
+//   if (!useFiltes) {
+//     return documents;
+//   }
+//   return documents.filter((doc) => {
+//     if (
+//       filter.categories.length > 0 &&
+//       !filter.categories.includes(doc.category)
+//     ) {
+//       return false;
+//     }
+//     if (filter.filterByPrice) {
+//       if (filter.includeShippingCost) {
+//         if (
+//           filter.priceMax > 0 &&
+//           doc.price + doc.shippingCost > filter.priceMax
+//         ) {
+//           return false;
+//         }
+//       } else {
+//         if (filter.priceMax > 0 && doc.price > filter.priceMax) {
+//           return false;
+//         }
+//       }
+//     }
+//     if (filter.priceMin > 0 && doc.price < filter.priceMin) {
+//       return false;
+//     }
+//     if (doc.isAuction && filter.isAuction === isAuction.FIXED_PRICE) {
+//       return false;
+//     } else if (!doc.isAuction && filter.isAuction === isAuction.AUCTIONS) {
+//       return false;
+//     }
+//     return true;
+//   });
+// };

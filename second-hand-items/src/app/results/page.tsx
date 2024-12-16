@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchAllItems, searchItems } from '@/services/documents';
+import { fetchRetrieveDocuments, searchItems } from '@/services/documents';
 import { isLoaded, isLoading } from '@/store/actions';
 import { Filter } from '@/store/models';
 import { useSearchParams } from 'next/navigation';
@@ -25,13 +25,24 @@ const Results = () => {
       searchItems(query)
         .then((response) => {
           console.log(response);
-          //   const filteredDocuments = filterDocuments(
-          //     response,
-          //     documents.useFilters,
-          //     filters
-          //   );
-          //   console.log(filteredDocuments);
-          //   dispatch(setResultDocuments(filteredDocuments));
+          // const retrievedDocuments: RetrievedDocuments[] = response.map(
+          //     (cluster: any) => {
+          //         return {
+          //         cluster: cluster.cluster,
+          //         documents: cluster.documents.map((doc: InputDocument) =>
+          //             parseDocument(doc)
+          //         ),
+          //         };
+          //     }
+          // );
+          // console.log(retrievedDocuments);
+          // const filteredDocuments = filterDocuments(
+          //   retrievedDocuments,
+          //   documents.useFilters,
+          //   filters
+          // );
+          // console.log(filteredDocuments);
+          // dispatch(setResultDocuments(filteredDocuments));
         })
         .catch((error) => {
           console.error('Error searching items:', error);
@@ -40,7 +51,7 @@ const Results = () => {
           dispatch(isLoaded());
         });
     } else {
-      fetchAllItems()
+      fetchRetrieveDocuments()
         .then((response) => {
           console.log(response);
           //   const filteredDocuments = filterDocuments(

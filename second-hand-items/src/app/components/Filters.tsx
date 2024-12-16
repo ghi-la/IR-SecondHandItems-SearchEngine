@@ -39,7 +39,7 @@ const Filters = () => {
             </li>
           );
         }}
-        value={filter.categories}
+        value={filter.clusters}
         onChange={(e, value) =>
           dispatch(setFilterCategories(value as string[]))
         }

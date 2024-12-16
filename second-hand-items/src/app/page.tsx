@@ -1,13 +1,9 @@
 'use client';
 
 import Search from '@/app/components/Search';
-import {
-  fetchAllItems,
-  getDocumentsInfo,
-  getHealth,
-} from '@/services/documents';
-import { openNotification, setCategories, setPriceMax } from '@/store/actions';
-import { DocumentsInfo } from '@/store/models';
+import { fetchRetrieveDocuments, getHealth } from '@/services/documents';
+import { openNotification } from '@/store/actions';
+import { ParsedCluster } from '@/store/models';
 import { Button, Divider } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -17,10 +13,14 @@ export default function Home() {
 
   useEffect(() => {
     dispatch({ type: 'IS_LOADING' });
-    getDocumentsInfo()
-      .then((info: DocumentsInfo | undefined) => {
-        dispatch(setCategories(info?.categories || []));
-        dispatch(setPriceMax(info?.priceMax || 50));
+    fetchRetrieveDocuments()
+      .then((response) => {
+        const categories = response.map(
+          (cluster: ParsedCluster) => cluster.label
+        );
+        // Sort in alphabetical order
+        categories.sort();
+        dispatch({ type: 'SET_CATEGORIES', payload: categories });
       })
       .finally(() => {
         dispatch({ type: 'IS_LOADED' });
@@ -60,7 +60,7 @@ export default function Home() {
   }
   function handleGetAll() {
     dispatch({ type: 'IS_LOADING' });
-    fetchAllItems()
+    fetchRetrieveDocuments()
       .then((response) => {
         console.log(response);
         dispatch(

@@ -22,9 +22,13 @@ export type Document = {
   shippingCost: number;
   title: string;
 };
-
 export type Cluster = {
-  cluster: string;
+  label: string;
+  documents: InputDocument[];
+};
+
+export type ParsedCluster = {
+  label: string;
   documents: Document[];
 };
 
@@ -34,7 +38,8 @@ export type DocumentsInfo = {
 };
 
 export type Filter = {
-  categories: string[];
+  // categories: string[];
+  clusters: string[];
   filterByPrice: boolean;
   priceMax: number;
   priceMin: number;
