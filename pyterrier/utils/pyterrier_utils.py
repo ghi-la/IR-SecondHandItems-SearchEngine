@@ -234,6 +234,6 @@ class Indexer:
                 label = max(set(categories), key=categories.count)
             else:
                 label = max(set(subcategories), key=subcategories.count) if subcategories else "Unknown"
-            cluster_labels[str(i)] = {"cluster": label, "documents": cluster_docs}
+            cluster_labels[str(i)] = {"label": label, "documents": cluster_docs}
 
         return cluster_labels

@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 if not pt.started():
     pt.init()
 
-DATA_PATHS = ["../data/shpock_output.jsonl"]
+DATA_PATHS = ["../data/shpock_output.jsonl", "../data/hand2hand_output.jsonl", "../data/secondhand_output.jsonl"]
 INDEX_PATH = "../data/index"
 MAX_DOCUMENTS = 1000
 
@@ -85,6 +85,22 @@ async def get_all_docs():
     global df
     indexer = Indexer(INDEX_PATH)
     documents = df.to_dict(orient="records")
+    clusters = indexer.cluster_documents(documents)
+    # return ORJSONResponse(
+    #     {"documents": documents, "clusters": clusters},
+    # )
+    return ORJSONResponse(clusters)
+
+@app.get("/api/retrieve")
+async def retrieve_top(top: int = MAX_DOCUMENTS):
+    global df
+    indexer = Indexer(INDEX_PATH)
+    documents = df.to_dict(orient="records")
+
+    # Select only the top results
+    top = min(top, len(documents))
+    documents = documents[:top]
+
     clusters = indexer.cluster_documents(documents)
     # return ORJSONResponse(
     #     {"documents": documents, "clusters": clusters},
