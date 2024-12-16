@@ -1,4 +1,4 @@
-import { isAuction } from './models';
+import { isAuction, ParsedCluster } from './models';
 
 export const isLoading = () => ({
   type: 'IS_LOADING',
@@ -51,7 +51,7 @@ export const setCategories = (payload: string[]) => ({
   type: 'SET_CATEGORIES',
   payload,
 });
-export const setResultDocuments = (payload: any) => ({
+export const setResultDocuments = (payload: ParsedCluster[]) => ({
   type: 'SET_RESULT_DOCUMENTS',
   payload,
 });

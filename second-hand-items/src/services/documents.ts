@@ -47,14 +47,16 @@ export const searchItems = async (query: string) => {
     const response = await axios.get(`${PYTERRIER_API}/search`, {
       params: { query },
     });
-    const retrievedDocuments: Cluster[] = response.data.map((cluster: any) => {
-      return {
-        label: cluster.cluster,
-        documents: cluster.documents.map((doc: InputDocument) =>
-          parseDocument(doc)
-        ),
-      };
-    });
+    const retrievedDocuments: ParsedCluster[] = response.data.map(
+      (cluster: Cluster) => {
+        return {
+          label: cluster.label,
+          documents: cluster.documents.map((doc: InputDocument) =>
+            parseDocument(doc)
+          ),
+        };
+      }
+    );
 
     return retrievedDocuments;
   } catch (error) {

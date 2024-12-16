@@ -1,10 +1,11 @@
 'use client';
 
 import { fetchRetrieveDocuments, searchItems } from '@/services/documents';
-import { isLoaded, isLoading } from '@/store/actions';
+import { isLoaded, isLoading, setResultDocuments } from '@/store/actions';
 import { Filter } from '@/store/models';
+import { filterDocuments } from '@/utils/documentsUtils';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ResultsPresentation from '../components/ResultsPresentation';
 
@@ -14,6 +15,8 @@ const Results = () => {
   const query = searchParams.get('query'); // Access the query parameter
   const documents = useSelector((state: any) => state.documents);
   const filters: Filter = useSelector((state: any) => state.filter);
+
+  const [resultNumber, setResultNumber] = useState(0);
 
   useEffect(() => {
     dispatch(isLoading());
@@ -25,24 +28,33 @@ const Results = () => {
       searchItems(query)
         .then((response) => {
           console.log(response);
-          // const retrievedDocuments: RetrievedDocuments[] = response.map(
+          setResultNumber(
+            response.reduce((acc, cluster) => acc + cluster.documents.length, 0)
+          );
+          const filteredDocuments = filterDocuments(
+            response,
+            documents.useFilters,
+            filters
+          );
+          dispatch(setResultDocuments(filteredDocuments));
+          //   const retrievedDocuments: RetrievedDocuments[] = response.map(
           //     (cluster: any) => {
-          //         return {
+          //       return {
           //         cluster: cluster.cluster,
           //         documents: cluster.documents.map((doc: InputDocument) =>
-          //             parseDocument(doc)
+          //           parseDocument(doc)
           //         ),
-          //         };
+          //       };
           //     }
-          // );
-          // console.log(retrievedDocuments);
-          // const filteredDocuments = filterDocuments(
-          //   retrievedDocuments,
-          //   documents.useFilters,
-          //   filters
-          // );
-          // console.log(filteredDocuments);
-          // dispatch(setResultDocuments(filteredDocuments));
+          //   );
+          //   console.log(retrievedDocuments);
+          //   const filteredDocuments = filterDocuments(
+          //     retrievedDocuments,
+          //     documents.useFilters,
+          //     filters
+          //   );
+          //   console.log(filteredDocuments);
+          //   dispatch(setResultDocuments(filteredDocuments));
         })
         .catch((error) => {
           console.error('Error searching items:', error);
@@ -54,6 +66,15 @@ const Results = () => {
       fetchRetrieveDocuments()
         .then((response) => {
           console.log(response);
+          setResultNumber(
+            response.reduce((acc, cluster) => acc + cluster.documents.length, 0)
+          );
+          const filteredDocuments = filterDocuments(
+            response,
+            documents.useFilters,
+            filters
+          );
+          dispatch(setResultDocuments(filteredDocuments));
           //   const filteredDocuments = filterDocuments(
           //     response,
           //     documents.useFilters,
@@ -76,7 +97,7 @@ const Results = () => {
       <div>
         <h1>Query Parameter Page</h1>
         <span>Query: {query}</span>
-        <span>Results count: {documents.resultDocuments.length}</span>
+        <span>Results count: {resultNumber}</span>
       </div>
 
       <ResultsPresentation />

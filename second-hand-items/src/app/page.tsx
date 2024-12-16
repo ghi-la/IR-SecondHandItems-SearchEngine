@@ -2,7 +2,7 @@
 
 import Search from '@/app/components/Search';
 import { fetchRetrieveDocuments, getHealth } from '@/services/documents';
-import { openNotification } from '@/store/actions';
+import { openNotification, setUseFilters } from '@/store/actions';
 import { ParsedCluster } from '@/store/models';
 import { Button, Divider } from '@mui/material';
 import { useEffect } from 'react';
@@ -23,6 +23,7 @@ export default function Home() {
         dispatch({ type: 'SET_CATEGORIES', payload: categories });
       })
       .finally(() => {
+        dispatch(setUseFilters(true));
         dispatch({ type: 'IS_LOADED' });
       });
   }, []);

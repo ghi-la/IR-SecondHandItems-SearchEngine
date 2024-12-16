@@ -1,6 +1,7 @@
 'use client';
 
-import { Document } from '@/store/models';
+import { Document, ParsedCluster } from '@/store/models';
+import { Divider } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
@@ -12,7 +13,7 @@ import DocumentPresentation from './DocumentPresentation';
 
 const ResultsPresentation = () => {
   const dispatch = useDispatch();
-  const documents: Document[] = useSelector(
+  const clusters: ParsedCluster[] = useSelector(
     (state: any) => state.documents.resultDocuments
   );
 
@@ -31,11 +32,11 @@ const ResultsPresentation = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 0));
   };
 
-  const categories = documents.reduce((acc: any, doc: Document) => {
-    if (!acc[doc.category]) {
-      acc[doc.category] = [];
+  const categories = clusters.reduce((acc: any, cluster: ParsedCluster) => {
+    if (!acc[cluster.label]) {
+      acc[cluster.label] = [];
     }
-    acc[doc.category].push(doc);
+    acc[cluster.label].push(...cluster.documents);
     return acc;
   }, {});
 
@@ -78,6 +79,7 @@ const ResultsPresentation = () => {
               </Grid>
             ))}
       </Grid>
+      <Divider />
       <Box
         sx={{
           display: 'flex',
