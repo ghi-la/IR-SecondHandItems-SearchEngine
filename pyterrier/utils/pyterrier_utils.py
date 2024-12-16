@@ -33,7 +33,7 @@ class Indexer:
         self.index_destination_path = index_destination_path
 
     @staticmethod
-    def load_dataset(dataset_path: str) -> List[Document]:
+    def load_dataset(dataset_path: str, start_idx: int = 0) -> List[Document]:
         """
         Load the dataset from a JSONL file and return a list of documents.
 
@@ -42,6 +42,8 @@ class Indexer:
         ----------
         dataset_path : str
             Path to the dataset file.
+        start_idx : int
+            Starting index for generating unique document numbers.
 
         Returns
         -------
@@ -59,7 +61,7 @@ class Indexer:
                 data = json.loads(line)
                 documents.append(
                     Document(
-                        docno=f"d{idx + 1}",  # Generate a unique document number
+                        docno=f"d{start_idx + idx + 1}",  # Generate a unique document number
                         category=data.get("category", ""),
                         subcategory=data.get("subcategory", ""),
                         title=data.get("title", ""),

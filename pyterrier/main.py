@@ -27,8 +27,11 @@ async def lifespan(app: FastAPI):
     # Load the dataset
     print("Loading dataset...")
     documents = []
+    start_idx = 0
     for path in DATA_PATHS:
-        documents+=indexer.load_dataset(path)
+        dataset_documents = indexer.load_dataset(path, start_idx=start_idx)
+        documents += dataset_documents
+        start_idx += len(dataset_documents)
 
     # Load documents inside dataframe
     df = pd.DataFrame(documents)
