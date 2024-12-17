@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Search from '@/app/components/Search';
-import { fetchRetrieveDocuments } from '@/services/documents';
-import { ParsedCluster } from '@/store/models';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import Search from "@/app/components/Search";
+import { fetchRetrieveDocuments } from "@/services/documents";
+import { ParsedCluster } from "@/store/models";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -19,13 +19,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    dispatch({ type: 'IS_LOADING' });
+    dispatch({ type: "IS_LOADING" });
     fetchRetrieveDocuments()
       .then((response) => {
         setCategoriedByResponse(response);
       })
       .finally(() => {
-        dispatch({ type: 'IS_LOADED' });
+        dispatch({ type: "IS_LOADED" });
       });
   }, []);
 
