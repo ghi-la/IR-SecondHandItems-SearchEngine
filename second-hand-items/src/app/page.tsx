@@ -9,16 +9,20 @@ import { useDispatch } from 'react-redux';
 export default function Home() {
   const dispatch = useDispatch();
 
+  function setCategoriedByResponse(response: ParsedCluster[]) {
+    const categories = response.map((cluster: ParsedCluster) => cluster.label);
+    // Sort in alphabetical order
+    categories.sort();
+    // remove duplicates using sets
+    const uniqueCategories = new Set(categories);
+    dispatch({ type: 'SET_CATEGORIES', payload: Array.from(uniqueCategories) });
+  }
+
   useEffect(() => {
     dispatch({ type: 'IS_LOADING' });
     fetchRetrieveDocuments()
       .then((response) => {
-        const categories = response.map(
-          (cluster: ParsedCluster) => cluster.label
-        );
-        // Sort in alphabetical order
-        categories.sort();
-        dispatch({ type: 'SET_CATEGORIES', payload: categories });
+        setCategoriedByResponse(response);
       })
       .finally(() => {
         dispatch({ type: 'IS_LOADED' });

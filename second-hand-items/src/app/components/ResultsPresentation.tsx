@@ -42,7 +42,7 @@ const ResultsPresentation = () => {
 
   const categoryKeys = Object.keys(categories);
   const totalPages =
-    categoryKeys.length > 0
+    categoryKeys.length > 0 && categories[categoryKeys[value]]
       ? Math.ceil(categories[categoryKeys[value]].length / 10)
       : 0;
 

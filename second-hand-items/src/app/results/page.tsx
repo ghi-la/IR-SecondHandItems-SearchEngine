@@ -38,13 +38,13 @@ const Results = () => {
       )
     );
     const filteredDocuments = filterDocuments(response, filters);
-    console.log('filteredDocuments', filteredDocuments);
+    // console.log('filteredDocuments', filteredDocuments);
     dispatch(setResultDocuments(filteredDocuments));
   }
 
   useEffect(() => {
     dispatch(isLoading());
-    console.log(documents.useFilters, filters);
+    // console.log(documents.useFilters, filters);
 
     if (query) {
       searchItems(query)

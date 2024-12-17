@@ -213,7 +213,7 @@ class Indexer:
 
         # Prepare text data for clustering
         text_data = [
-            f"{doc['category']} {doc['subcategory']}" for doc in documents
+            f"{doc['category']} {doc['subcategory']} {doc['title']}" for doc in documents
         ]
 
         # Vectorize the text data

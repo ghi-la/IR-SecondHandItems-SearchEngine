@@ -34,7 +34,7 @@ export const filterDocuments = (clusters: ParsedCluster[], filter: Filter) => {
     ) {
       return false;
     }
-    return cluster.documents.some((doc) => {
+    cluster.documents = cluster.documents.filter((doc) => {
       if (filter.filterByPrice) {
         if (filter.includeShippingCost) {
           if (
@@ -59,9 +59,9 @@ export const filterDocuments = (clusters: ParsedCluster[], filter: Filter) => {
       }
       return true;
     });
+    return cluster.documents.length > 0;
   });
 };
-
 // export const filterDocuments = (
 //   documents: Document[],
 //   useFiltes: boolean,
