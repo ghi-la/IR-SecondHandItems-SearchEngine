@@ -1,14 +1,14 @@
-import { setUseFilters } from '@/store/actions';
-import { Button, FormControlLabel, Switch, TextField } from '@mui/material';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Filters from './Filters';
+import { setUseFilters } from "@/store/actions";
+import { Button, TextField } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import Filters from "./Filters";
 
 const Search = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
   function handleSearch() {
@@ -22,7 +22,7 @@ const Search = () => {
 
   useEffect(() => {
     setShowFilters(false);
-    console.log('useEffect');
+    console.log("useEffect");
     dispatch(setUseFilters(false));
   }, []);
   return (
@@ -34,11 +34,7 @@ const Search = () => {
         onChange={(e) => setQuery(e.target.value)}
       />
       <Button onClick={handleSearch}>Search</Button>
-      <FormControlLabel
-        control={<Switch checked={showFilters} onChange={toggleFilters} />}
-        label="Use Filters"
-      />
-      {showFilters && <Filters />}
+      <Filters />
     </>
   );
 };

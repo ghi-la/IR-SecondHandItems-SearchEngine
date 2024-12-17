@@ -5,16 +5,16 @@ import {
   setPriceMax,
   setPriceMin,
   toggleIncludeShippingCost,
-} from '@/store/actions';
-import { Filter, isAuction } from '@/store/models';
+} from "@/store/actions";
+import { Filter, isAuction } from "@/store/models";
 import {
   Autocomplete,
   Checkbox,
   FormControlLabel,
   Switch,
   TextField,
-} from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 const Filters = () => {
   const dispatch = useDispatch();
@@ -68,7 +68,7 @@ const Filters = () => {
             label="Max Price"
             variant="outlined"
             type="number"
-            value={filter.priceMax}
+            value={1000}
             onChange={(e) => dispatch(setPriceMax(parseFloat(e.target.value)))}
           />
           <FormControlLabel
