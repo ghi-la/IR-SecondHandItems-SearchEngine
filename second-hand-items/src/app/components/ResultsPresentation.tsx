@@ -11,6 +11,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DocumentPresentation from './DocumentPresentation';
 
+const ITEMS_PER_PAGE = 10;
+
 const ResultsPresentation = () => {
   const dispatch = useDispatch();
   const clusters: ParsedCluster[] = useSelector(
@@ -22,6 +24,7 @@ const ResultsPresentation = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    setPage(0); // Reset to the first page
   };
 
   const handleNextPage = () => {
@@ -32,6 +35,8 @@ const ResultsPresentation = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 0));
   };
 
+  const allDocuments = clusters.flatMap((cluster) => cluster.documents);
+
   const categories = clusters.reduce((acc: any, cluster: ParsedCluster) => {
     if (!acc[cluster.label]) {
       acc[cluster.label] = [];
@@ -40,10 +45,18 @@ const ResultsPresentation = () => {
     return acc;
   }, {});
 
-  const categoryKeys = Object.keys(categories);
+  const sortedCategoryKeys = Object.keys(categories).sort(
+    (a, b) => categories[b].length - categories[a].length
+  );
+
   const totalPages =
-    categoryKeys.length > 0 && categories[categoryKeys[value]]
-      ? Math.ceil(categories[categoryKeys[value]].length / 10)
+    value === 0
+      ? Math.ceil(allDocuments.length / ITEMS_PER_PAGE)
+      : sortedCategoryKeys.length > 0 &&
+        categories[sortedCategoryKeys[value - 1]]
+      ? Math.ceil(
+          categories[sortedCategoryKeys[value - 1]].length / ITEMS_PER_PAGE
+        )
       : 0;
 
   return (
@@ -56,7 +69,8 @@ const ResultsPresentation = () => {
           variant="scrollable"
           scrollButtons="auto"
         >
-          {categoryKeys.map((category, index) => (
+          <Tab key="all" label={`All (${allDocuments.length})`} />
+          {sortedCategoryKeys.map((category, index) => (
             <Tab
               key={category}
               label={`${category} (${categories[category].length})`}
@@ -70,14 +84,22 @@ const ResultsPresentation = () => {
         justifyContent="center"
         sx={{ width: '100%', margin: '0 auto' }}
       >
-        {categoryKeys.length > 0 &&
-          categories[categoryKeys[value]]
-            .slice(page * 10, (page + 1) * 10)
-            .map((document: Document) => (
-              <Grid key={document.docno}>
-                <DocumentPresentation document={document} />
-              </Grid>
-            ))}
+        {value === 0
+          ? allDocuments
+              .slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
+              .map((document: Document) => (
+                <Grid key={document.docno}>
+                  <DocumentPresentation document={document} />
+                </Grid>
+              ))
+          : sortedCategoryKeys.length > 0 &&
+            categories[sortedCategoryKeys[value - 1]]
+              .slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
+              .map((document: Document) => (
+                <Grid key={document.docno}>
+                  <DocumentPresentation document={document} />
+                </Grid>
+              ))}
       </Grid>
       <Divider />
       <Box
@@ -97,8 +119,11 @@ const ResultsPresentation = () => {
         <Button
           onClick={handleNextPage}
           disabled={
-            categoryKeys.length === 0 ||
-            (page + 1) * 10 >= categories[categoryKeys[value]].length
+            value === 0
+              ? (page + 1) * ITEMS_PER_PAGE >= allDocuments.length
+              : sortedCategoryKeys.length === 0 ||
+                (page + 1) * ITEMS_PER_PAGE >=
+                  categories[sortedCategoryKeys[value - 1]].length
           }
         >
           Next
