@@ -32,6 +32,11 @@ const Search = () => {
         label="Search"
         variant="outlined"
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch();
+          }
+        }}
       />
       <Button onClick={handleSearch}>Search</Button>
       <Filters />
