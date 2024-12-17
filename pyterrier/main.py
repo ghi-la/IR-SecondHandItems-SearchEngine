@@ -99,6 +99,9 @@ async def retrieve_top(top: int = MAX_DOCUMENTS):
     global df
     indexer = Indexer(INDEX_PATH)
     documents = df.to_dict(orient="records")
+    if (documents is None) or (len(documents) == 0):
+        raise ValueError("No documents found in the dataset.")
+    
 
     # Select only the top results
     top = min(top, len(documents))
@@ -142,6 +145,8 @@ async def search(query: str, top: int = MAX_DOCUMENTS):
     # Cluster the documents
     indexer = Indexer(INDEX_PATH)
     documents = ordered_docs.to_dict(orient="records")
+    if (documents is None) or (len(documents) == 0):
+        return ORJSONResponse([])
     clusters = indexer.cluster_documents(documents)
     
     # Return the documents and clusters as JSON

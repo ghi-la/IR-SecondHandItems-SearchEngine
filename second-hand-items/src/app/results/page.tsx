@@ -37,24 +37,6 @@ const Results = () => {
             filters
           );
           dispatch(setResultDocuments(filteredDocuments));
-          //   const retrievedDocuments: RetrievedDocuments[] = response.map(
-          //     (cluster: any) => {
-          //       return {
-          //         cluster: cluster.cluster,
-          //         documents: cluster.documents.map((doc: InputDocument) =>
-          //           parseDocument(doc)
-          //         ),
-          //       };
-          //     }
-          //   );
-          //   console.log(retrievedDocuments);
-          //   const filteredDocuments = filterDocuments(
-          //     retrievedDocuments,
-          //     documents.useFilters,
-          //     filters
-          //   );
-          //   console.log(filteredDocuments);
-          //   dispatch(setResultDocuments(filteredDocuments));
         })
         .catch((error) => {
           console.error('Error searching items:', error);
@@ -75,13 +57,6 @@ const Results = () => {
             filters
           );
           dispatch(setResultDocuments(filteredDocuments));
-          //   const filteredDocuments = filterDocuments(
-          //     response,
-          //     documents.useFilters,
-          //     filters
-          //   );
-          //   console.log(filteredDocuments);
-          //   dispatch(setResultDocuments(filteredDocuments));
         })
         .catch((error) => {
           console.error('Error searching items:', error);
@@ -94,13 +69,17 @@ const Results = () => {
 
   return (
     <>
-      <div>
+      {/* <div>
         <h1>Query Parameter Page</h1>
         <span>Query: {query}</span>
         <span>Results count: {resultNumber}</span>
-      </div>
+      </div> */}
 
-      <ResultsPresentation />
+      {resultNumber > 0 ? (
+        <ResultsPresentation />
+      ) : (
+        <div>No results found for your Query "{query}"</div>
+      )}
     </>
   );
 };
