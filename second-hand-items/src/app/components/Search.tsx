@@ -12,25 +12,11 @@ const Search = () => {
   const searchParams = useSearchParams();
   const oldQuery = searchParams.get("query");
   const [query, setQuery] = useState(oldQuery || "");
-  const [showFilters, setShowFilters] = useState(false);
 
   function handleSearch() {
-    // if already on the results page, just update the query
     dispatch(toggleIsSearching());
     router.push(`/results?query=${query}`);
-    // router.push(`/results?query=${query}`);
   }
-
-  // function toggleFilters() {
-  //   setShowFilters(!showFilters);
-  //   dispatch(setUseFilters(!showFilters));
-  // }
-
-  // useEffect(() => {
-  //   setShowFilters(false);
-  //   console.log('useEffect');
-  //   dispatch(setUseFilters(false));
-  // }, []);
   return (
     <div>
       <h1>Second-hand items search</h1>
