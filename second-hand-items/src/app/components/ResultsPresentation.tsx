@@ -35,6 +35,10 @@ const ResultsPresentation = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 0));
   };
 
+  const handlePageClick = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
+
   const allDocuments = clusters.flatMap((cluster) => cluster.documents);
 
   const categories = clusters.reduce((acc: any, cluster: ParsedCluster) => {
@@ -113,9 +117,28 @@ const ResultsPresentation = () => {
         <Button onClick={handlePreviousPage} disabled={page === 0}>
           Previous
         </Button>
-        <span style={{ margin: '0 10px' }}>
-          Page {page + 1} of {totalPages}
-        </span>
+        <Button onClick={() => handlePageClick(0)} disabled={page === 0}>
+          1
+        </Button>
+        {page > 3 && <span>...</span>}
+        {Array.from({ length: 7 }, (_, i) => page - 3 + i)
+          .filter((pageNumber) => pageNumber > 0 && pageNumber < totalPages - 1)
+          .map((pageNumber) => (
+            <Button
+              key={pageNumber}
+              onClick={() => handlePageClick(pageNumber)}
+              disabled={pageNumber === page}
+            >
+              {pageNumber + 1}
+            </Button>
+          ))}
+        {page < totalPages - 4 && <span>...</span>}
+        <Button
+          onClick={() => handlePageClick(totalPages - 1)}
+          disabled={page === totalPages - 1}
+        >
+          {totalPages}
+        </Button>
         <Button
           onClick={handleNextPage}
           disabled={

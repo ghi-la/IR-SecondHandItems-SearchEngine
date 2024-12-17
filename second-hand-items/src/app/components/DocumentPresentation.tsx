@@ -21,9 +21,7 @@ const DocumentPresentation = ({ document }: { document: Document }) => {
         </Typography>
         <Typography variant="h6" sx={{ color: 'text.secondary' }}>
           {document.price} {document.currency}{' '}
-          {document.shippingCost
-            ? `+ ${document.shippingCost}`
-            : 'Free Shipping'}
+          {document.shippingCost ? `+ ${document.shippingCost}` : ''}
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {document.isAuction ? 'Auction' : 'Buy Now'}
