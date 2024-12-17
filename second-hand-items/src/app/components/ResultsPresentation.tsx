@@ -1,7 +1,7 @@
 'use client';
 
 import { Document, ParsedCluster } from '@/store/models';
-import { Divider } from '@mui/material';
+import { Divider, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
@@ -21,6 +21,7 @@ const ResultsPresentation = () => {
 
   const [value, setValue] = useState(0);
   const [page, setPage] = useState(0);
+  const [sortOption, setSortOption] = useState('priceAsc');
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -39,7 +40,34 @@ const ResultsPresentation = () => {
     setPage(pageNumber);
   };
 
-  const allDocuments = clusters.flatMap((cluster) => cluster.documents);
+  const handleSortChange = (event: SelectChangeEvent) => {
+    setSortOption(event.target.value);
+  };
+
+  const sortDocuments = (documents: Document[]) => {
+    switch (sortOption) {
+      case 'priceAsc':
+        return documents.sort((a, b) => a.price - b.price);
+      case 'priceDesc':
+        return documents.sort((a, b) => b.price - a.price);
+      case 'alphaAsc':
+        return documents.sort((a, b) => a.title.localeCompare(b.title));
+      case 'alphaDesc':
+        return documents.sort((a, b) => b.title.localeCompare(a.title));
+      case 'auction':
+        // boolean sorting by isAuction
+        return documents.sort((a, b) => (a.isAuction ? -1 : 1));
+      case 'buyNow':
+        // boolean sorting by isAuction
+        return documents.sort((a, b) => (a.isAuction ? 1 : -1));
+      default:
+        return documents;
+    }
+  };
+
+  const allDocuments = sortDocuments(
+    clusters.flatMap((cluster) => cluster.documents)
+  );
 
   const categories = clusters.reduce((acc: any, cluster: ParsedCluster) => {
     if (!acc[cluster.label]) {
@@ -82,6 +110,16 @@ const ResultsPresentation = () => {
           ))}
         </Tabs>
       </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: 2 }}>
+        <Select value={sortOption} onChange={handleSortChange}>
+          <MenuItem value="priceAsc">Price: Low to High</MenuItem>
+          <MenuItem value="priceDesc">Price: High to Low</MenuItem>
+          <MenuItem value="alphaAsc">Alphabetic: A to Z</MenuItem>
+          <MenuItem value="alphaDesc">Alphabetic: Z to A</MenuItem>
+          <MenuItem value="auction">Auctions Before</MenuItem>
+          <MenuItem value="buyNow">Buy Now before</MenuItem>
+        </Select>
+      </Box>
       <Grid
         container
         spacing={4}
@@ -97,7 +135,7 @@ const ResultsPresentation = () => {
                 </Grid>
               ))
           : sortedCategoryKeys.length > 0 &&
-            categories[sortedCategoryKeys[value - 1]]
+            sortDocuments(categories[sortedCategoryKeys[value - 1]])
               .slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
               .map((document: Document) => (
                 <Grid key={document.docno}>
