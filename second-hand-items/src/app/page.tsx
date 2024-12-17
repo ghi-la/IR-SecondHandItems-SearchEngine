@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Search from '@/app/components/Search';
-import { fetchRetrieveDocuments } from '@/services/documents';
-import { ParsedCluster } from '@/store/models';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import Search from "@/app/components/Search";
+import { fetchRetrieveDocuments } from "@/services/documents";
+import { ParsedCluster } from "@/store/models";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'IS_LOADING' });
+    dispatch({ type: "IS_LOADING" });
     fetchRetrieveDocuments()
       .then((response) => {
         const categories = response.map(
@@ -18,10 +18,10 @@ export default function Home() {
         );
         // Sort in alphabetical order
         categories.sort();
-        dispatch({ type: 'SET_CATEGORIES', payload: categories });
+        dispatch({ type: "SET_CATEGORIES", payload: categories });
       })
       .finally(() => {
-        dispatch({ type: 'IS_LOADED' });
+        dispatch({ type: "IS_LOADED" });
       });
   }, []);
 
