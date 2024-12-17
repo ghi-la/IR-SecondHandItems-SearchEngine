@@ -1,13 +1,15 @@
 const INITIAL_STATE = {
   categories: [],
-  useFilters: false,
+  isSearching: false,
   resultDocuments: [],
 };
 
-const categoriesReducer = (state = INITIAL_STATE, action: any) => {
+const documentsReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
-    case 'SET_USE_FILTERS':
-      return { ...state, useFilters: action.payload };
+    case 'TOGGLE_IS_SEARCHING':
+      return { ...state, isSearching: !state.isSearching };
+    // case 'SET_USE_FILTERS':
+    //   return { ...state, useFilters: action.payload };
     case 'SET_CATEGORIES':
       return { ...state, categories: action.payload };
     case 'SET_RESULT_DOCUMENTS':
@@ -17,4 +19,4 @@ const categoriesReducer = (state = INITIAL_STATE, action: any) => {
   }
 };
 
-export default categoriesReducer;
+export default documentsReducer;

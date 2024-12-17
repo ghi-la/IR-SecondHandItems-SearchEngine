@@ -23,14 +23,10 @@ export const parseDocument = (doc: InputDocument): Document => {
   };
 };
 
-export const filterDocuments = (
-  clusters: ParsedCluster[],
-  useFiltes: boolean,
-  filter: Filter
-) => {
-  if (!useFiltes) {
-    return clusters;
-  }
+export const filterDocuments = (clusters: ParsedCluster[], filter: Filter) => {
+  // if (!useFiltes) {
+  //   return clusters;
+  // }
   return clusters.filter((cluster) => {
     if (
       filter.clusters.length > 0 &&

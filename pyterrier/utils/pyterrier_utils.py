@@ -208,6 +208,9 @@ class Indexer:
         List[dict]
             A list of clusters where each cluster is a dictionary with a label and documents.
         """
+        # Adjust the number of clusters if there are not enough documents
+        n_clusters = min(n_clusters, len(documents))
+
         # Prepare text data for clustering
         text_data = [
             f"{doc['category']} {doc['subcategory']}" for doc in documents

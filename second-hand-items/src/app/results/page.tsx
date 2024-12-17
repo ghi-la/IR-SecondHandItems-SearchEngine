@@ -2,12 +2,13 @@
 
 import { fetchRetrieveDocuments, searchItems } from '@/services/documents';
 import { isLoaded, isLoading, setResultDocuments } from '@/store/actions';
-import { Filter } from '@/store/models';
+import { Filter, ParsedCluster } from '@/store/models';
 import { filterDocuments } from '@/utils/documentsUtils';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ResultsPresentation from '../components/ResultsPresentation';
+import Search from '../components/Search';
 
 const Results = () => {
   const dispatch = useDispatch();
@@ -18,25 +19,37 @@ const Results = () => {
 
   const [resultNumber, setResultNumber] = useState(0);
 
+  function setCategoriedByResponse(response: ParsedCluster[]) {
+    const categories = response.map((cluster: ParsedCluster) => cluster.label);
+    // Sort in alphabetical order
+    categories.sort();
+    // remove duplicates using sets
+    const uniqueCategories = new Set(categories);
+    dispatch({ type: 'SET_CATEGORIES', payload: Array.from(uniqueCategories) });
+  }
+
+  function elaborateResponse(response: any) {
+    setCategoriedByResponse(response);
+    setResultNumber(
+      response.reduce(
+        (acc: any, cluster: { documents: string | any[] }) =>
+          acc + cluster.documents.length,
+        0
+      )
+    );
+    const filteredDocuments = filterDocuments(response, filters);
+    console.log('filteredDocuments', filteredDocuments);
+    dispatch(setResultDocuments(filteredDocuments));
+  }
+
   useEffect(() => {
     dispatch(isLoading());
     console.log(documents.useFilters, filters);
 
     if (query) {
-      // Call the searchItems function from the documents service
-      // Set the results state with the response
       searchItems(query)
         .then((response) => {
-          console.log(response);
-          setResultNumber(
-            response.reduce((acc, cluster) => acc + cluster.documents.length, 0)
-          );
-          const filteredDocuments = filterDocuments(
-            response,
-            documents.useFilters,
-            filters
-          );
-          dispatch(setResultDocuments(filteredDocuments));
+          elaborateResponse(response);
         })
         .catch((error) => {
           console.error('Error searching items:', error);
@@ -47,16 +60,7 @@ const Results = () => {
     } else {
       fetchRetrieveDocuments()
         .then((response) => {
-          console.log(response);
-          setResultNumber(
-            response.reduce((acc, cluster) => acc + cluster.documents.length, 0)
-          );
-          const filteredDocuments = filterDocuments(
-            response,
-            documents.useFilters,
-            filters
-          );
-          dispatch(setResultDocuments(filteredDocuments));
+          elaborateResponse(response);
         })
         .catch((error) => {
           console.error('Error searching items:', error);
@@ -65,10 +69,11 @@ const Results = () => {
           dispatch(isLoaded());
         });
     }
-  }, [query]);
+  }, [query, documents.isSearching]);
 
   return (
     <>
+      <Search />
       {/* <div>
         <h1>Query Parameter Page</h1>
         <span>Query: {query}</span>
@@ -85,3 +90,5 @@ const Results = () => {
 };
 
 export default Results;
+
+

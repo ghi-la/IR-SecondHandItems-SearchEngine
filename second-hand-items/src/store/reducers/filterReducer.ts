@@ -4,7 +4,7 @@ const INITIAL_STATE: Filter = {
   // categories: [],
   clusters: [],
   filterByPrice: false,
-  priceMax: Number.MAX_SAFE_INTEGER,
+  priceMax: 1000,
   priceMin: 0,
   includeShippingCost: true,
   isAuction: isAuction.BOTH,

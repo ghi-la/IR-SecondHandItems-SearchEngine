@@ -22,8 +22,6 @@ const Filters = () => {
   const categories = useSelector((state: any) => state.documents.categories);
   const filter: Filter = useSelector((state: any) => state.filter);
 
-  const ABSOLUTE_MAX_PRICE = filter.priceMax;
-
   return (
     <>
       <Autocomplete
@@ -68,7 +66,7 @@ const Filters = () => {
             label="Max Price"
             variant="outlined"
             type="number"
-            value={1000}
+            value={filter.priceMax}
             onChange={(e) => dispatch(setPriceMax(parseFloat(e.target.value)))}
           />
           <FormControlLabel

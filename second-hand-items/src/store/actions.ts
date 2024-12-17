@@ -43,9 +43,12 @@ export const setAuction = (payload: isAuction) => ({
 });
 
 // ####### Documents Actions #######
-export const setUseFilters = (payload: boolean) => ({
-  type: 'SET_USE_FILTERS',
-  payload,
+// export const setUseFilters = (payload: boolean) => ({
+//   type: 'SET_USE_FILTERS',
+//   payload,
+// });
+export const toggleIsSearching = () => ({
+  type: 'TOGGLE_IS_SEARCHING',
 });
 export const setCategories = (payload: string[]) => ({
   type: 'SET_CATEGORIES',
