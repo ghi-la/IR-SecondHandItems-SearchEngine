@@ -21,12 +21,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <style>{`
-          h1 {
+          .title {
             padding: 10px;
           }
         `}</style>
       </head>
-      <body style={{ fontFamily: "Roboto, sans-serif" }}>
+      <body style={{ fontFamily: 'Roboto, sans-serif' }}>
         <AppWrapper>{children}</AppWrapper>
       </body>
     </html>

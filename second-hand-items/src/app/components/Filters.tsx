@@ -14,7 +14,7 @@ import {
   FormControlLabel,
   Switch,
   TextField,
-} from "@mui/material";
+} from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
 
 interface FiltersProps {

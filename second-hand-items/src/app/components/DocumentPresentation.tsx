@@ -21,7 +21,7 @@ const DocumentPresentation = ({ document }: { document: Document }) => {
         </Typography>
         <Typography variant="h6" sx={{ color: 'text.secondary' }}>
           {document.price} {document.currency}{' '}
-          {document.shippingCost ? `+ ${document.shippingCost}` : ''}
+          {document.shippingCost ? `(+ ${document.shippingCost} shipping)` : ''}
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {document.isAuction ? 'Auction' : 'Buy Now'}
@@ -29,7 +29,9 @@ const DocumentPresentation = ({ document }: { document: Document }) => {
       </CardContent>
       <CardActions>
         <Button
-          size="small"
+          // size="small"
+          variant="outlined"
+          fullWidth
           onClick={() => window.open(document.itemURI, '_blank')}
         >
           View Item

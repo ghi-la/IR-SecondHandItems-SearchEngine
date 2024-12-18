@@ -16,7 +16,7 @@ export const parseDocument = (doc: InputDocument): Document => {
     isAuction: doc.bestOffer ? true : false,
     imageURI: doc.imageURI,
     itemURI: doc.itemURI,
-    price: parseFloat(doc.price.match(/\d+\.?\d*/)?.[0] || '0'),
+    price: parseFloat(doc.price.replace(/[^\d.-]+/g, '') || '0'),
     currency: currency,
     shippingCost: parseFloat(doc.shippingCost.match(/\d+\.?\d*/)?.[0] || '0'),
     title: doc.title,

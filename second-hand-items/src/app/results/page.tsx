@@ -5,7 +5,7 @@ import { isLoaded, isLoading, setResultDocuments } from "@/store/actions";
 import { Filter, ParsedCluster } from "@/store/models";
 import { filterDocuments } from "@/utils/documentsUtils";
 import FilterIcon from '@mui/icons-material/FilterAlt';
-import { Accordion, AccordionSummary } from '@mui/material';
+import { Accordion, AccordionSummary, Typography } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,9 +74,9 @@ const Results = () => {
 
   return (
     <>
-      <h1>
+      <Typography variant="h3">
         Second Hand <i>{query}(s)</i>
-      </h1>
+      </Typography>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ flex: 1, marginRight: '10px' }}>
           <Search />
@@ -95,7 +95,9 @@ const Results = () => {
       {resultNumber > 0 ? (
         <ResultsPresentation />
       ) : (
-        <div>No results found for your Query "{query}"</div>
+        <Typography variant="body1">
+          No results found for your Query "{query}"
+        </Typography>
       )}
     </>
   );
