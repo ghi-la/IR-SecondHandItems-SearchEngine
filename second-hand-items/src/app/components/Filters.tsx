@@ -17,7 +17,15 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
-const Filters = () => {
+interface FiltersProps {
+  showCategoryFilter?: boolean;
+  alignRight?: boolean;
+}
+
+const Filters: React.FC<FiltersProps> = ({
+  showCategoryFilter = false,
+  alignRight = false,
+}) => {
   const dispatch = useDispatch();
 
   const categories = useSelector((state: any) => state.documents.categories);
@@ -27,10 +35,11 @@ const Filters = () => {
     <div
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: alignRight ? "column" : "row",
         gap: "10px",
         flexWrap: "wrap",
-        justifyContent: "center",
+        justifyContent: alignRight ? "flex-end" : "center",
+        alignItems: alignRight ? "flex-end" : "center",
       }}
     >
       <Autocomplete

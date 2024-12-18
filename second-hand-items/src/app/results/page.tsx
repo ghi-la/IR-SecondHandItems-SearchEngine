@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import { fetchRetrieveDocuments, searchItems } from '@/services/documents';
-import { isLoaded, isLoading, setResultDocuments } from '@/store/actions';
-import { Filter, ParsedCluster } from '@/store/models';
-import { filterDocuments } from '@/utils/documentsUtils';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ResultsPresentation from '../components/ResultsPresentation';
-import Search from '../components/Search';
+import { fetchRetrieveDocuments, searchItems } from "@/services/documents";
+import { isLoaded, isLoading, setResultDocuments } from "@/store/actions";
+import { Filter, ParsedCluster } from "@/store/models";
+import { filterDocuments } from "@/utils/documentsUtils";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Filters from "../components/Filters";
+import ResultsPresentation from "../components/ResultsPresentation";
+import Search from "../components/Search";
 
 const Results = () => {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
-  const query = searchParams.get('query'); // Access the query parameter
+  const query = searchParams.get("query"); // Access the query parameter
   const documents = useSelector((state: any) => state.documents);
   const filters: Filter = useSelector((state: any) => state.filter);
 
@@ -25,7 +26,7 @@ const Results = () => {
     categories.sort();
     // remove duplicates using sets
     const uniqueCategories = new Set(categories);
-    dispatch({ type: 'SET_CATEGORIES', payload: Array.from(uniqueCategories) });
+    dispatch({ type: "SET_CATEGORIES", payload: Array.from(uniqueCategories) });
   }
 
   function elaborateResponse(response: any) {
@@ -38,13 +39,11 @@ const Results = () => {
       )
     );
     const filteredDocuments = filterDocuments(response, filters);
-    // console.log('filteredDocuments', filteredDocuments);
     dispatch(setResultDocuments(filteredDocuments));
   }
 
   useEffect(() => {
     dispatch(isLoading());
-    // console.log(documents.useFilters, filters);
 
     if (query) {
       searchItems(query)
@@ -52,7 +51,7 @@ const Results = () => {
           elaborateResponse(response);
         })
         .catch((error) => {
-          console.error('Error searching items:', error);
+          console.error("Error searching items:", error);
         })
         .finally(() => {
           dispatch(isLoaded());
@@ -63,7 +62,7 @@ const Results = () => {
           elaborateResponse(response);
         })
         .catch((error) => {
-          console.error('Error searching items:', error);
+          console.error("Error searching items:", error);
         })
         .finally(() => {
           dispatch(isLoaded());
@@ -74,11 +73,7 @@ const Results = () => {
   return (
     <>
       <Search />
-      {/* <div>
-        <h1>Query Parameter Page</h1>
-        <span>Query: {query}</span>
-        <span>Results count: {resultNumber}</span>
-      </div> */}
+      <Filters showCategoryFilter={false} alignRight={true} />
 
       {resultNumber > 0 ? (
         <ResultsPresentation />
@@ -90,5 +85,3 @@ const Results = () => {
 };
 
 export default Results;
-
-

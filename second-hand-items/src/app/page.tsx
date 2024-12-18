@@ -44,7 +44,7 @@ export default function Home() {
       <h1 style={{ marginBottom: "5px" }}>Second-hand items search</h1>
       <Search />
       <Divider style={{ width: "85%", margin: "5px" }} />
-      <Filters />
+      <Filters showCategoryFilter={true} alignRight={false} />
     </div>
   );
 }
