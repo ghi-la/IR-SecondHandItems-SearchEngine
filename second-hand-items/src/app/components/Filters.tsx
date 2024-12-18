@@ -34,40 +34,46 @@ const Filters: React.FC<FiltersProps> = ({
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: alignRight ? "column" : "row",
-        gap: "10px",
-        flexWrap: "wrap",
-        justifyContent: alignRight ? "flex-end" : "center",
-        alignItems: alignRight ? "flex-end" : "center",
+        display: 'flex',
+        flexDirection: alignRight ? 'column' : 'row',
+        gap: '10px',
+        flexWrap: 'wrap',
+        justifyContent: alignRight ? 'flex-end' : 'center',
+        alignItems: alignRight ? 'flex-end' : 'center',
       }}
     >
-      <Autocomplete
-        disableCloseOnSelect
-        multiple
-        options={categories}
-        renderOption={(props, option: any, { selected }) => {
-          const { key, ...optionProps } = props;
-          return (
-            <li key={key} {...optionProps}>
-              <Checkbox style={{ marginRight: 8 }} checked={selected} />
-              {option}
-            </li>
-          );
-        }}
-        value={filter.clusters}
-        onChange={(e, value) =>
-          dispatch(setFilterCategories(value as string[]))
-        }
-        renderInput={(params) => (
-          <TextField
-            style={{ margin: "10px", width: "fit-content", minWidth: "300px" }}
-            {...params}
-            label="Category"
-            variant="outlined"
-          />
-        )}
-      />
+      {showCategoryFilter && (
+        <Autocomplete
+          disableCloseOnSelect
+          multiple
+          options={categories}
+          renderOption={(props, option: any, { selected }) => {
+            const { key, ...optionProps } = props;
+            return (
+              <li key={key} {...optionProps}>
+                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {option}
+              </li>
+            );
+          }}
+          value={filter.clusters}
+          onChange={(e, value) =>
+            dispatch(setFilterCategories(value as string[]))
+          }
+          renderInput={(params) => (
+            <TextField
+              style={{
+                margin: '10px',
+                width: 'fit-content',
+                minWidth: '300px',
+              }}
+              {...params}
+              label="Category"
+              variant="outlined"
+            />
+          )}
+        />
+      )}
 
       <Autocomplete
         options={Object.values(isAuction)}
@@ -77,7 +83,7 @@ const Filters: React.FC<FiltersProps> = ({
         renderInput={(params) => (
           <TextField
             {...params}
-            style={{ margin: "10px", width: "fit-content", minWidth: "400px" }}
+            style={{ margin: '10px', width: 'fit-content', minWidth: '400px' }}
             label="Consider only Auctions, only Fixed Price, or Both?"
             variant="outlined"
           />
@@ -89,14 +95,14 @@ const Filters: React.FC<FiltersProps> = ({
             onChange={() => dispatch(setFilterByPrice(!filter.filterByPrice))}
           />
         }
-        style={{ margin: "10px" }}
+        style={{ margin: '10px' }}
         label="Filter by price"
       />
       {filter.filterByPrice && (
         <>
-          <Divider style={{ width: "100%", visibility: "hidden" }} />
+          <Divider style={{ width: '100%', visibility: 'hidden' }} />
           <TextField
-            style={{ margin: "10px", width: "fit-content" }}
+            style={{ margin: '10px', width: 'fit-content' }}
             label="Min Price"
             variant="outlined"
             type="number"
@@ -104,7 +110,7 @@ const Filters: React.FC<FiltersProps> = ({
             onChange={(e) => dispatch(setPriceMin(parseFloat(e.target.value)))}
           />
           <TextField
-            style={{ margin: "10px", width: "fit-content" }}
+            style={{ margin: '10px', width: 'fit-content' }}
             label="Max Price"
             variant="outlined"
             type="number"

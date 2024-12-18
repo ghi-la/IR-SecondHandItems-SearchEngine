@@ -10,10 +10,11 @@ const theme = createTheme({
     },
   },
   components: {
-    MuiButton: {
+    MuiAccordion: {
       styleOverrides: {
         root: {
-          textTransform: 'none',
+          margin: '10px !important',
+          width: 'calc(100% - 20px)',
         },
       },
     },
