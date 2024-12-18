@@ -3,10 +3,12 @@
 import { Document, ParsedCluster } from '@/store/models';
 import { Divider, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DocumentPresentation from './DocumentPresentation';
@@ -42,6 +44,13 @@ const ResultsPresentation = () => {
 
   const handleSortChange = (event: SelectChangeEvent) => {
     setSortOption(event.target.value);
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    pageNumber: number
+  ) => {
+    setPage(pageNumber - 1);
   };
 
   const sortDocuments = (documents: Document[]) => {
@@ -152,43 +161,17 @@ const ResultsPresentation = () => {
           marginTop: 2,
         }}
       >
-        <Button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </Button>
-        <Button onClick={() => handlePageClick(0)} disabled={page === 0}>
-          1
-        </Button>
-        {page > 3 && <span>...</span>}
-        {Array.from({ length: 7 }, (_, i) => page - 3 + i)
-          .filter((pageNumber) => pageNumber > 0 && pageNumber < totalPages - 1)
-          .map((pageNumber) => (
-            <Button
-              key={pageNumber}
-              onClick={() => handlePageClick(pageNumber)}
-              disabled={pageNumber === page}
-            >
-              {pageNumber + 1}
-            </Button>
-          ))}
-        {page < totalPages - 4 && <span>...</span>}
-        <Button
-          onClick={() => handlePageClick(totalPages - 1)}
-          disabled={page === totalPages - 1}
-        >
-          {totalPages}
-        </Button>
-        <Button
-          onClick={handleNextPage}
-          disabled={
-            value === 0
-              ? (page + 1) * ITEMS_PER_PAGE >= allDocuments.length
-              : sortedCategoryKeys.length === 0 ||
-                (page + 1) * ITEMS_PER_PAGE >=
-                  categories[sortedCategoryKeys[value - 1]].length
-          }
-        >
-          Next
-        </Button>
+        <Stack spacing={2}>
+          <Pagination
+            variant="outlined"
+            color="primary"
+            count={totalPages}
+            page={page + 1}
+            onChange={handlePageChange}
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
       </Box>
     </div>
   );
