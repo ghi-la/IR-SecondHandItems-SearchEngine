@@ -22,7 +22,7 @@ const Search = () => {
         display: 'flex',
         alignItems: 'center',
         margin: '10px',
-        width: 'calc(100% - 20px)',
+        width: 'calc(90% - 20px)',
         // maxWidth: '100%',
         justifyContent: 'space-around',
       }}

@@ -41,7 +41,7 @@ export default function Home() {
         height: '100vh',
       }}
     >
-      <Typography variant="h1" style={{ marginBottom: '5px' }}>
+      <Typography variant="h3" style={{ marginBottom: '5px' }}>
         Second-hand items search
       </Typography>
       <Search />

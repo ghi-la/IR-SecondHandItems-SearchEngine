@@ -74,7 +74,7 @@ const Results = () => {
 
   return (
     <>
-      <Typography variant="h3">
+      <Typography variant="h3" style={{ marginLeft: '10px' }}>
         Second Hand <i>{query}(s)</i>
       </Typography>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
