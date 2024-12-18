@@ -42,33 +42,38 @@ const Filters: React.FC<FiltersProps> = ({
         alignItems: alignRight ? "flex-end" : "center",
       }}
     >
-      <Autocomplete
-        disableCloseOnSelect
-        multiple
-        options={categories}
-        renderOption={(props, option: any, { selected }) => {
-          const { key, ...optionProps } = props;
-          return (
-            <li key={key} {...optionProps}>
-              <Checkbox style={{ marginRight: 8 }} checked={selected} />
-              {option}
-            </li>
-          );
-        }}
-        value={filter.clusters}
-        onChange={(e, value) =>
-          dispatch(setFilterCategories(value as string[]))
-        }
-        renderInput={(params) => (
-          <TextField
-            style={{ margin: "10px", width: "fit-content", minWidth: "300px" }}
-            {...params}
-            label="Category"
-            variant="outlined"
-          />
-        )}
-      />
-
+      {showCategoryFilter && (
+        <Autocomplete
+          disableCloseOnSelect
+          multiple
+          options={categories}
+          renderOption={(props, option: any, { selected }) => {
+            const { key, ...optionProps } = props;
+            return (
+              <li key={key} {...optionProps}>
+                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {option}
+              </li>
+            );
+          }}
+          value={filter.clusters}
+          onChange={(e, value) =>
+            dispatch(setFilterCategories(value as string[]))
+          }
+          renderInput={(params) => (
+            <TextField
+              style={{
+                margin: "10px",
+                width: "fit-content",
+                minWidth: "300px",
+              }}
+              {...params}
+              label="Category"
+              variant="outlined"
+            />
+          )}
+        />
+      )}
       <Autocomplete
         options={Object.values(isAuction)}
         value={filter.isAuction}
