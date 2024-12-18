@@ -72,6 +72,9 @@ const Results = () => {
 
   return (
     <>
+      <h1>
+        Second Hand <i>{query}(s)</i>
+      </h1>
       <Search />
       <Filters showCategoryFilter={false} alignRight={true} />
 
