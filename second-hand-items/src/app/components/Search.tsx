@@ -4,7 +4,6 @@ import { Button, TextField } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import Filters from "./Filters";
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -18,10 +17,18 @@ const Search = () => {
     router.push(`/results?query=${query}`);
   }
   return (
-    <div>
-      <h1>Second-hand items search</h1>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        margin: "10px",
+        width: "100%",
+        maxWidth: "800px",
+      }}
+    >
       <TextField
         label="Search"
+        style={{ width: "100%" }}
         value={query}
         variant="outlined"
         onChange={(e) => setQuery(e.target.value)}
@@ -31,10 +38,9 @@ const Search = () => {
           }
         }}
       />
-      <Button onClick={handleSearch}>
+      <Button onClick={handleSearch} style={{ height: "56px" }}>
         <SearchIcon />
       </Button>
-      <Filters />
     </div>
   );
 };
