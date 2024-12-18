@@ -3,8 +3,10 @@
 import Search from "@/app/components/Search";
 import { fetchRetrieveDocuments } from "@/services/documents";
 import { ParsedCluster } from "@/store/models";
+import { Divider } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Filters from "./components/Filters";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ export default function Home() {
     categories.sort();
     // remove duplicates using sets
     const uniqueCategories = new Set(categories);
-    dispatch({ type: 'SET_CATEGORIES', payload: Array.from(uniqueCategories) });
+    dispatch({ type: "SET_CATEGORIES", payload: Array.from(uniqueCategories) });
   }
 
   useEffect(() => {
@@ -29,79 +31,20 @@ export default function Home() {
       });
   }, []);
 
-  // function handleTestAlert() {
-  //   dispatch(openNotification({ severity: 'success', message: 'Test Alert' }));
-  // }
-
-  // function handleTestLoading() {
-  //   dispatch({ type: 'IS_LOADING' });
-  //   setTimeout(() => {
-  //     dispatch({ type: 'IS_LOADED' });
-  //   }, 3000);
-  // }
-
-  // function handleGetHealth() {
-  //   dispatch({ type: 'IS_LOADING' });
-  //   getHealth()
-  //     .then((response: any) => {
-  //       dispatch(
-  //         openNotification({ severity: 'success', message: response.status })
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       dispatch(
-  //         openNotification({
-  //           severity: 'error',
-  //           message: 'PyTerrier is not healthy',
-  //         })
-  //       );
-  //     })
-  //     .finally(() => {
-  //       dispatch({ type: 'IS_LOADED' });
-  //     });
-  // }
-  // function handleGetAll() {
-  //   dispatch({ type: 'IS_LOADING' });
-  //   fetchRetrieveDocuments()
-  //     .then((response) => {
-  //       console.log(response);
-  //       dispatch(
-  //         openNotification({
-  //           severity: 'success',
-  //           message: ' documents console logged',
-  //         })
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       dispatch(
-  //         openNotification({
-  //           severity: 'error',
-  //           message: 'Error fetching items',
-  //         })
-  //       );
-  //     })
-  //     .finally(() => {
-  //       dispatch({ type: 'IS_LOADED' });
-  //     });
-  // }
-
   return (
-    <div>
-      {/* <h1>Home</h1>
-      <Button variant="contained" color="primary" onClick={handleTestAlert}>
-        Test Alert
-      </Button>
-      <Button variant="contained" color="primary" onClick={handleTestLoading}>
-        Test Loading
-      </Button>
-      <Button variant="contained" color="primary" onClick={handleGetHealth}>
-        Test Terrier Health
-      </Button>
-      <Button variant="contained" color="primary" onClick={handleGetAll}>
-        Get All Documents
-      </Button>
-      <Divider /> */}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
+      <h1 style={{ marginBottom: "5px" }}>Second-hand items search</h1>
       <Search />
+      <Divider style={{ width: "85%", margin: "5px" }} />
+      <Filters />
     </div>
   );
 }

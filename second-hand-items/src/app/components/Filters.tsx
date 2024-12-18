@@ -10,6 +10,7 @@ import { Filter, isAuction } from "@/store/models";
 import {
   Autocomplete,
   Checkbox,
+  Divider,
   FormControlLabel,
   Switch,
   TextField,
@@ -23,7 +24,15 @@ const Filters = () => {
   const filter: Filter = useSelector((state: any) => state.filter);
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "10px",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}
+    >
       <Autocomplete
         disableCloseOnSelect
         multiple
@@ -42,7 +51,27 @@ const Filters = () => {
           dispatch(setFilterCategories(value as string[]))
         }
         renderInput={(params) => (
-          <TextField {...params} label="Category" variant="outlined" />
+          <TextField
+            style={{ margin: "10px", width: "fit-content", minWidth: "300px" }}
+            {...params}
+            label="Category"
+            variant="outlined"
+          />
+        )}
+      />
+
+      <Autocomplete
+        options={Object.values(isAuction)}
+        value={filter.isAuction}
+        onChange={(e, value) => dispatch(setAuction(value as isAuction))}
+        getOptionLabel={(option) => option}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            style={{ margin: "10px", width: "fit-content", minWidth: "400px" }}
+            label="Consider only Auctions, only Fixed Price, or Both?"
+            variant="outlined"
+          />
         )}
       />
       <FormControlLabel
@@ -51,11 +80,14 @@ const Filters = () => {
             onChange={() => dispatch(setFilterByPrice(!filter.filterByPrice))}
           />
         }
+        style={{ margin: "10px" }}
         label="Filter by price"
       />
       {filter.filterByPrice && (
         <>
+          <Divider style={{ width: "100%", visibility: "hidden" }} />
           <TextField
+            style={{ margin: "10px", width: "fit-content" }}
             label="Min Price"
             variant="outlined"
             type="number"
@@ -63,6 +95,7 @@ const Filters = () => {
             onChange={(e) => dispatch(setPriceMin(parseFloat(e.target.value)))}
           />
           <TextField
+            style={{ margin: "10px", width: "fit-content" }}
             label="Max Price"
             variant="outlined"
             type="number"
@@ -80,20 +113,7 @@ const Filters = () => {
           />
         </>
       )}
-      <Autocomplete
-        options={Object.values(isAuction)}
-        value={filter.isAuction}
-        onChange={(e, value) => dispatch(setAuction(value as isAuction))}
-        getOptionLabel={(option) => option}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Consider only Auctions, only Fixed Price, or Both?"
-            variant="outlined"
-          />
-        )}
-      />
-    </>
+    </div>
   );
 };
 

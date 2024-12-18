@@ -24,9 +24,6 @@ export const parseDocument = (doc: InputDocument): Document => {
 };
 
 export const filterDocuments = (clusters: ParsedCluster[], filter: Filter) => {
-  // if (!useFiltes) {
-  //   return clusters;
-  // }
   return clusters.filter((cluster) => {
     if (
       filter.clusters.length > 0 &&
@@ -62,43 +59,3 @@ export const filterDocuments = (clusters: ParsedCluster[], filter: Filter) => {
     return cluster.documents.length > 0;
   });
 };
-// export const filterDocuments = (
-//   documents: Document[],
-//   useFiltes: boolean,
-//   filter: Filter
-// ) => {
-//   if (!useFiltes) {
-//     return documents;
-//   }
-//   return documents.filter((doc) => {
-//     if (
-//       filter.categories.length > 0 &&
-//       !filter.categories.includes(doc.category)
-//     ) {
-//       return false;
-//     }
-//     if (filter.filterByPrice) {
-//       if (filter.includeShippingCost) {
-//         if (
-//           filter.priceMax > 0 &&
-//           doc.price + doc.shippingCost > filter.priceMax
-//         ) {
-//           return false;
-//         }
-//       } else {
-//         if (filter.priceMax > 0 && doc.price > filter.priceMax) {
-//           return false;
-//         }
-//       }
-//     }
-//     if (filter.priceMin > 0 && doc.price < filter.priceMin) {
-//       return false;
-//     }
-//     if (doc.isAuction && filter.isAuction === isAuction.FIXED_PRICE) {
-//       return false;
-//     } else if (!doc.isAuction && filter.isAuction === isAuction.AUCTIONS) {
-//       return false;
-//     }
-//     return true;
-//   });
-// };
