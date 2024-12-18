@@ -159,6 +159,7 @@ const ResultsPresentation = () => {
           justifyContent: 'center',
           alignItems: 'center',
           marginTop: 2,
+          marginBottom: 2,
         }}
       >
         <Stack spacing={2}>

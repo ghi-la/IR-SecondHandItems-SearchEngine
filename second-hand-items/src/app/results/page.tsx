@@ -77,13 +77,19 @@ const Results = () => {
       <h1>
         Second Hand <i>{query}(s)</i>
       </h1>
-      <Search />
-      <Accordion>
-        <AccordionSummary expandIcon={<FilterIcon />}>
-          Show Filters
-        </AccordionSummary>
-        <Filters showCategoryFilter={false} alignRight={false} />
-      </Accordion>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ flex: 1, marginRight: '10px' }}>
+          <Search />
+        </div>
+        <div style={{ flex: 1, margin: 'auto' }}>
+          <Accordion>
+            <AccordionSummary expandIcon={<FilterIcon />}>
+              Show Filters
+            </AccordionSummary>
+            <Filters showCategoryFilter={false} alignRight={false} />
+          </Accordion>
+        </div>
+      </div>
       {/* <Filters showCategoryFilter={false} alignRight={true} /> */}
 
       {resultNumber > 0 ? (
